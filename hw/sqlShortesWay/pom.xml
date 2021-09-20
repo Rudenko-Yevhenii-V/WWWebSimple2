@@ -12,12 +12,7 @@
   <artifactId>sqlShortesWay</artifactId>
 
   <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
-    <dependency>
-      <groupId>org.flywaydb</groupId>
-      <artifactId>flyway-core</artifactId>
-      <version>7.15.0</version>
-    </dependency>
+
     <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
     <dependency>
       <groupId>org.postgresql</groupId>
@@ -74,25 +69,7 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.flywaydb</groupId>
-        <artifactId>flyway-maven-plugin</artifactId>
-        <version>8.0.0-beta1</version>
-        <configuration>
-          <url>jdbc:postgresql:file:./target/foobar</url>
-          <user>sa</user>
-          <locations>
-            <location>classpath:db/migration</location>
-          </locations>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.2.14</version>
-          </dependency>
-        </dependencies>
-      </plugin>
+
     </plugins>
   </build>
 </project>
