@@ -8,6 +8,6 @@ services:
     environment:
      POSTGRES_PASSWORD: root
      POSTGRES_USER: rttr
-     POSTGRES_DB: db_rudenko_first
+     POSTGRES_DB: db_HW_1
 
 
