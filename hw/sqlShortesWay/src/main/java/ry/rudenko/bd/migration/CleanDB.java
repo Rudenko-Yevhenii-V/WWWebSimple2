@@ -10,7 +10,7 @@ public class CleanDB {
   static final String USER = "rttr";
   static final String PASS = "root";
 
-  public static void main(String[] args) {
+  public void clean() {
     try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
         Statement stmt = conn.createStatement()
     ) {

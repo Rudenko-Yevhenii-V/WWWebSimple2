@@ -11,7 +11,7 @@ public class MigrateDB {
   static final String USER = "rttr";
   static final String PASS = "root";
 
-  public static void main(String[] args) {
+  public void createDB() {
 
     try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
         Statement stmt = conn.createStatement()
