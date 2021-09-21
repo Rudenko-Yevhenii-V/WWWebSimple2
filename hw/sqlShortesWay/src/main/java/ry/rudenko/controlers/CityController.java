@@ -15,6 +15,7 @@ import ry.rudenko.entity.Location;
 import ry.rudenko.entity.Problem;
 import ry.rudenko.entity.Route;
 import ry.rudenko.entity.Solution;
+import ry.rudenko.service.impl.SolutionServiceImpl;
 import ry.rudenko.util.Generate;
 import ry.rudenko.util.LoadProperty;
 import ry.rudenko.util.MostProfitableWay;
@@ -32,7 +33,6 @@ public class CityController {
     Map<String, String> wayToFind = initwayToFind();
     Properties props = LoadProperty.loadProperties();
     String url = props.getProperty("url");
-
     try (Connection connection = DriverManager.getConnection(url, props)) {
       connection.setAutoCommit(false);
 //      new LocationServiceImpl().create(locations, connection);
@@ -44,13 +44,12 @@ public class CityController {
 //      new ProblemServiceImpl().create(problems, connection);
 
       solutions = initSolutions(connection);
-//      new SolutionServiceImpl().create(solutions,connection);
+      new SolutionServiceImpl().create(solutions,connection);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
-
   private List<Solution> initSolutions(Connection connection) {
     List<Solution> solutions = new ArrayList<>();
     List<Integer> solutionsId = new ArrayList<>();
@@ -72,7 +71,6 @@ public class CityController {
         while (rs.next()) {
           final int countCity = rs.getInt("count");
            inputMatrix = new int[countCity][countCity];
-
         }
         for (int i = 0; i < inputMatrix.length; i++) {
           for (int i1 = 0; i1 < inputMatrix[i].length; i1++) {
@@ -95,10 +93,20 @@ public class CityController {
             stop = to_id;
           }
         }
-
+        try (PreparedStatement select = connection.prepareStatement(
+            "SELECT from_id, to_id, cost FROM routes"
+        )) {
+          final ResultSet resultSet = select.executeQuery();
+          while(resultSet.next()){
+            final int from_id = resultSet.getInt("from_id");
+            final int to_id = resultSet.getInt("to_id");
+            final int cost = resultSet.getInt("cost");
+            inputMatrix[from_id -1][to_id-1] = cost;
+          }
+        }
         MostProfitableWay mostProfitableWay = new MostProfitableWay();
         final String outPut = mostProfitableWay.mostProfitableWay(start,stop,inputMatrix);
-//        System.out.println("outPut = " + outPut);
+        solutions.add(new Solution(problemId,Integer.parseInt(outPut.replaceAll("[^0-9]", ""))));
       }
     } catch (SQLException e) {
       try {

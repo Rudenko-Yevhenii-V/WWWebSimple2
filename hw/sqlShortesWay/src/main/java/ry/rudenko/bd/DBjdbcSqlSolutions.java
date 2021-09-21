@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import ry.rudenko.entity.BaseEntity;
+import ry.rudenko.entity.Location;
 import ry.rudenko.entity.Solution;
 
 public class DBjdbcSqlSolutions implements IdbSolutions{
@@ -22,25 +23,27 @@ public class DBjdbcSqlSolutions implements IdbSolutions{
   public void create(List<Solution> baseEntityList, Connection connection) {
     System.out.println("DBjdbcSqlSolutions.create " +  baseEntityList);
 
-//    Location location = (Location) baseEntity;
-//    try (PreparedStatement insertContact = connection.prepareStatement(
-//        "INSERT INTO locations (name) VALUES (?) ON CONFLICT DO NOTHING",
-//        PreparedStatement.RETURN_GENERATED_KEYS
-//    )) {
-//      insertContact.setString(1, location.name());
-//      int row = insertContact.executeUpdate();
-//      if (row < 1) {
-//        System.err.println("don't add to DB!!!!!!!!");
-//      }
-//      connection.commit();
-//    } catch (SQLException e) {
-//      try {
-//        connection.rollback();
-//      } catch (SQLException ex) {
-//        ex.printStackTrace();
-//      }
-//      throw new RuntimeException(e);
-//    }
+    for (Solution solution : baseEntityList) {
+      try (PreparedStatement insertContact = connection.prepareStatement(
+          "UPDATE solutions SET cost = ? WHERE problem_id = ? ",
+          PreparedStatement.RETURN_GENERATED_KEYS
+      )) {
+        insertContact.setInt(1, solution.cost());
+        insertContact.setInt(2, solution.problem_id());
+        int row = insertContact.executeUpdate();
+        if (row > 0) {
+          System.err.println("Successful!!!!!!!!");
+        }
+        connection.commit();
+      } catch (SQLException e) {
+        try {
+          connection.rollback();
+        } catch (SQLException ex) {
+          ex.printStackTrace();
+        }
+        throw new RuntimeException(e);
+      }
+    }
 
   }
 }
