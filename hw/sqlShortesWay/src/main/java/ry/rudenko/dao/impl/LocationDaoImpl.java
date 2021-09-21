@@ -2,15 +2,16 @@ package ry.rudenko.dao.impl;
 
 
 import java.sql.Connection;
+import java.util.List;
 import ry.rudenko.bd.DBjdbcSqlLocations;
 import ry.rudenko.dao.LocationDao;
+import ry.rudenko.entity.BaseEntity;
 import ry.rudenko.entity.Location;
 
 public class LocationDaoImpl implements LocationDao {
 
   @Override
-  public void create(Location location, Connection connection) {
-    System.out.println("LocationDaoImpl.create");
-    DBjdbcSqlLocations.getInstance().create(location, connection);
+  public void create(List<Location> locations, Connection connection) {
+    DBjdbcSqlLocations.getInstance().create(locations, connection);
   }
 }

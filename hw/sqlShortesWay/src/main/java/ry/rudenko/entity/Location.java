@@ -1,11 +1,11 @@
 package ry.rudenko.entity;
 
 public record Location (
-    String id,
+    Integer id,
     String name
 ) implements BaseEntity{
 
-  public Location(String id, String name) {
+  public Location(Integer id, String name) {
     this.id = id;
     this.name = name;
   }

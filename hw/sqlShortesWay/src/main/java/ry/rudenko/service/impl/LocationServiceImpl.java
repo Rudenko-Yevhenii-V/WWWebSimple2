@@ -12,9 +12,8 @@ public class LocationServiceImpl implements LocationService {
   private final LocationDao locationDao = new LocationDaoImpl();
 
   @Override
-  public void create(Location location, Connection connection) {
-    System.out.println("LocationServiceImpl.create");
-    locationDao.create(location, connection);
+  public void create(List<Location> locations, Connection connection) {
+    locationDao.create(locations, connection);
   }
 
   @Override

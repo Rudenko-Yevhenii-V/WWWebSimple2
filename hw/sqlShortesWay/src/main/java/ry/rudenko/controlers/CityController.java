@@ -1,194 +1,219 @@
 package ry.rudenko.controlers;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.TreeMap;
 import ry.rudenko.entity.Location;
-import ry.rudenko.service.impl.LocationServiceImpl;
+import ry.rudenko.entity.Problem;
+import ry.rudenko.entity.Route;
+import ry.rudenko.entity.Solution;
 import ry.rudenko.util.Generate;
 import ry.rudenko.util.LoadProperty;
 import ry.rudenko.util.MostProfitableWay;
 
 public class CityController {
 
-//  private final UserFacade userFacade = new UserFacadeImpl();
-//  private final SecurityFacade securityFacade = new SecurityFacadeImpl();
+  public static int countRoute;
 
   public void start() {
+    List<Route> routes;
+    List<Problem> problems;
+    List<Solution> solutions;
+    List<Location> locations = initNameOfCity();
+    Map<String, Integer> wayCost = initWayCosts();
+    Map<String, String> wayToFind = initwayToFind();
     Properties props = LoadProperty.loadProperties();
     String url = props.getProperty("url");
 
     try (Connection connection = DriverManager.getConnection(url, props)) {
       connection.setAutoCommit(false);
-      System.out.println("connection = " + connection);
+//      new LocationServiceImpl().create(locations, connection);
 
-      Location location = new Location(new Generate().getGenerateId(), "gdansk2");
-      new LocationServiceImpl().create(location, connection);
+      routes = initRoutes(connection, wayCost);
+//      new RouteServiceImpl().create(routes, connection);
 
+      problems = initProblems(connection, wayToFind);
+//      new ProblemServiceImpl().create(problems, connection);
 
+      solutions = initSolutions(connection);
+//      new SolutionServiceImpl().create(solutions,connection);
 
-
-//      MostProfitableWay mostProfitableWay = new MostProfitableWay();
-//      final String outPut = mostProfitableWay.mostProfitableWay("INPUT ");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
-
-//    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//    System.out.println("select your option");
-//    String position;
-//    try {
-//      runNavigation();
-//      while ((position = reader.readLine()) != null) {
-//        crud(position, reader);
-//        position = reader.readLine();
-//        if (position.equals("0")) {
-//          System.exit(0);
-//        }
-//        crud(position, reader);
-//      }
-//    } catch (IOException e) {
-//      System.out.println("problem: = " + e.getMessage());
-//    }
   }
 
-  private void runNavigation() {
-    System.out.println();
-    System.out.println("if you want create user, please enter 1");
-    System.out.println("if you want login, please enter 2");
-    System.out.println("if you want update user, please enter 3");
-    System.out.println("if you want delete user, please enter 4");
-    System.out.println("if you want findById user, please enter 5");
-    System.out.println("if you want findAll user, please enter 6");
-    System.out.println("if you want exit, please enter 0");
-    System.out.println();
-  }
+  private List<Solution> initSolutions(Connection connection) {
+    List<Solution> solutions = new ArrayList<>();
+    List<Integer> solutionsId = new ArrayList<>();
+    try (PreparedStatement insertContact = connection.prepareStatement(
+        "SELECT problem_id FROM solutions"
+    )) {
+      ResultSet rs1 = insertContact.executeQuery();
+      while (rs1.next()) {
+        final int problem_id = rs1.getInt("problem_id");
+        solutionsId.add(problem_id);
+      }
+      for (Integer problemId : solutionsId) {
+        int[][] inputMatrix = new int[0][0];
+        Integer start = 0;
+        Integer stop = 0;
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT COUNT(id)\n"
+            + "FROM locations AS count");
+        while (rs.next()) {
+          final int countCity = rs.getInt("count");
+           inputMatrix = new int[countCity][countCity];
 
-  private void crud(String position, BufferedReader reader) {
-    switch (position) {
-      case "1":
-        create(reader);
-        break;
-      case "2":
-        login(reader);
-        break;
-      case "3":
-        update(reader);
-        break;
-      case "4":
-        delete(reader);
-        break;
-      case "5":
-        findById(reader);
-        break;
-      case "6":
-        findAll(reader);
-        break;
-      case "0":
-        System.exit(0);
+        }
+        for (int i = 0; i < inputMatrix.length; i++) {
+          for (int i1 = 0; i1 < inputMatrix[i].length; i1++) {
+            if (i == i1) {
+              inputMatrix[i][i1] = 0;
+              continue;
+            }
+            inputMatrix[i][i1] = -1;
+          }
+        }
+        try (PreparedStatement select_from_id_to_id_from_problems = connection.prepareStatement(
+            "SELECT from_id, to_id FROM problems WHERE id = ?"
+        )) {
+          select_from_id_to_id_from_problems.setInt(1,problemId);
+          final ResultSet resultSet = select_from_id_to_id_from_problems.executeQuery();
+          while(resultSet.next()){
+            final int from_id = resultSet.getInt("from_id");
+            final int to_id = resultSet.getInt("to_id");
+            start = from_id;
+            stop = to_id;
+          }
+        }
+
+        MostProfitableWay mostProfitableWay = new MostProfitableWay();
+        final String outPut = mostProfitableWay.mostProfitableWay(start,stop,inputMatrix);
+//        System.out.println("outPut = " + outPut);
+      }
+    } catch (SQLException e) {
+      try {
+        connection.rollback();
+      } catch (SQLException ex) {
+        ex.printStackTrace();
+      }
+      throw new RuntimeException(e);
     }
-    runNavigation();
+    return solutions;
   }
 
-  public void createForCRUD(String email, String password) {
-//    userFacade.register(email, password);
+  private Map<String, String> initwayToFind() {
+    Map<String, String> wayToFind = new TreeMap<>();
+    wayToFind.put("gdansk", "warszawa");
+    wayToFind.put("bydgoszcz", "warszawa");
+    return wayToFind;
   }
 
-  private void create(BufferedReader reader) {
-    System.out.println("UserController.create");
-    try {
-      System.out.println("Please, enter your email");
-      String email = reader.readLine();
-      System.out.println("Please, enter your password");
-      String password = reader.readLine();
-//      userFacade.register(email, password);
-    } catch (IOException e) {
-      System.out.println("problem: = " + e.getMessage());
+  private List<Problem> initProblems(Connection connection, Map<String, String> wayToFind) {
+    List<Problem> problems = new ArrayList<>();
+    for (Map.Entry<String, String> entry : wayToFind.entrySet()) {
+      String cityFrom = entry.getKey();
+      String cityTo = entry.getValue();
+
+      try (PreparedStatement insertContact = connection.prepareStatement(
+          "SELECT id FROM locations WHERE name = ?"
+      )) {
+        int id1 = 0;
+        int id2 = 0;
+        insertContact.setString(1, cityFrom);
+        ResultSet rs1 = insertContact.executeQuery();
+        if (rs1.next()) {
+          id1 = rs1.getInt("id");
+        }
+        insertContact.setString(1, cityTo);
+        ResultSet rs2 = insertContact.executeQuery();
+        if (rs2.next()) {
+          id2 = rs2.getInt("id");
+        }
+        problems.add(new Problem(new Generate().getGenerateId(),
+            id1,
+            id2));
+      } catch (SQLException e) {
+        try {
+          connection.rollback();
+        } catch (SQLException ex) {
+          ex.printStackTrace();
+        }
+        throw new RuntimeException(e);
+      }
+
+
     }
+    return problems;
   }
 
-  public String loginForCRUD(String email, String password) {
-    String token = null;
-    System.out.println("UserController.login");
-    try {
-//      token = securityFacade.login(email, password);
-    } catch (Exception ex) {
-      return "NullPointerException";
+  private List<Route> initRoutes(Connection connection, Map<String, Integer> wayCost) {
+    List<Route> routes = new ArrayList<>();
+    for (Map.Entry<String, Integer> entry : wayCost.entrySet()) {
+      Integer value = entry.getValue();
+      String key = entry.getKey();
+      final String[] split = key.split("-");
+      try (PreparedStatement insertContact = connection.prepareStatement(
+          "SELECT id FROM locations WHERE name = ?"
+      )) {
+        int id1 = 0;
+        int id2 = 0;
+        insertContact.setString(1, split[0]);
+        ResultSet rs1 = insertContact.executeQuery();
+        if (rs1.next()) {
+          id1 = rs1.getInt("id");
+        }
+        insertContact.setString(1, split[1]);
+        ResultSet rs2 = insertContact.executeQuery();
+        if (rs2.next()) {
+          id2 = rs2.getInt("id");
+        }
+        routes.add(new Route(new Generate().getGenerateId(),
+            id1,
+            id2,
+            value));
+      } catch (SQLException e) {
+        try {
+          connection.rollback();
+        } catch (SQLException ex) {
+          ex.printStackTrace();
+        }
+        throw new RuntimeException(e);
+      }
     }
-    return token;
+    return routes;
   }
 
-  private void login(BufferedReader reader) {
-    System.out.println("UserController.login");
-    try {
-      System.out.println("Please, enter your email");
-      String email = reader.readLine();
-      System.out.println("Please, enter your password");
-      String password = reader.readLine();
-//      String token = securityFacade.login(email, password);
-//      System.out.println("token = " + token);
-    } catch (IOException e) {
-      System.out.println("problem: = " + e.getMessage());
-    }
+  private List<Location> initNameOfCity() {
+    List<Location> locations = new ArrayList<>();
+    locations.add(new Location(new Generate().getGenerateId(), "gdansk"));
+    locations.add(new Location(new Generate().getGenerateId(), "bydgoszcz"));
+    locations.add(new Location(new Generate().getGenerateId(), "torun"));
+    locations.add(new Location(new Generate().getGenerateId(), "warszawa"));
+    return locations;
   }
 
-  private void update(BufferedReader reader) {
-    System.out.println("UserController.update");
-    try {
-      System.out.println("Please, enter token");
-      String token = reader.readLine();
-      System.out.println("Please, enter your first name");
-      String firstName = reader.readLine();
-      System.out.println("Please, enter your last name");
-      String lastName = reader.readLine();
-//      UserDto userDto = new UserDto();
-//      userDto.setFirstName(firstName);
-//      userDto.setLastName(lastName);
-//      userFacade.updateByToken(userDto, token);
-    } catch (IOException e) {
-      System.out.println("problem: = " + e.getMessage());
-    }
-  }
-
-  private void delete(BufferedReader reader) {
-    System.out.println("UserController.delete");
-    try {
-      System.out.println("Please, enter token");
-      String token = reader.readLine();
-//      userFacade.deleteByToken(token);
-    } catch (IOException e) {
-      System.out.println("problem: = " + e.getMessage());
-    }
-  }
-
-  private void findById(BufferedReader reader) {
-    System.out.println("UserController.findById");
-    try {
-      System.out.println("Please, enter token");
-      String token = reader.readLine();
-//      UserDto userDto = userFacade.findByToken(token);
-//      System.out.println("user = " + userDto);
-    } catch (IOException e) {
-      System.out.println("problem: = " + e.getMessage());
-    }
-  }
-
-  private void findAll(BufferedReader reader) {
-    System.out.println("UserController.findAll");
-    try {
-      System.out.println("Please, enter token");
-      String token = reader.readLine();
-//      List<UserDto> users = userFacade.findAllByToken(token);
-//      for (UserDto user : users) {
-//        System.out.println("user = " + user);
-//      }
-    } catch (IOException e) {
-      System.out.println("problem: = " + e.getMessage());
-    }
+  private Map<String, Integer> initWayCosts() {
+    Map<String, Integer> wayCost = new TreeMap<>();
+    wayCost.put("gdansk-bydgoszcz", 1);
+    wayCost.put("gdansk-torun", 3);
+    wayCost.put("bydgoszcz-gdansk", 1);
+    wayCost.put("bydgoszcz-torun", 1);
+    wayCost.put("bydgoszcz-warszawa", 4);
+    wayCost.put("torun-gdansk", 3);
+    wayCost.put("torun-bydgoszcz", 1);
+    wayCost.put("torun-warszawa", 1);
+    wayCost.put("warszawa-bydgoszcz", 4);
+    wayCost.put("warszawa-torun", 1);
+    return wayCost;
   }
 }

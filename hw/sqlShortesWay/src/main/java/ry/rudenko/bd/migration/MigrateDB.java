@@ -34,10 +34,9 @@ public class MigrateDB {
           "to_id INTEGER REFERENCES locations(id)  NOT NULL, " +
           "PRIMARY KEY ( id ))";
 
-      String sqlsolutions = "CREATE TABLE IF NOT EXISTS solutions " +
-          "(problem_id INTEGER REFERENCES problems(id), " +
-          "cost INTEGER, " +
-          "PRIMARY KEY ( problem_id ))";
+      String sqlsolutions = "CREATE TABLE IF NOT EXISTS solutions("
+          + "problem_id SERIAL PRIMARY KEY, cost INTEGER, "
+          + "FOREIGN KEY (problem_id) REFERENCES problems (Id))";
 
       stmt.executeUpdate(sqllocations);
       stmt.executeUpdate(sqlroutes);
