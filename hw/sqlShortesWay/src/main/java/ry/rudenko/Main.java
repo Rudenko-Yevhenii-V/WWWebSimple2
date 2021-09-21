@@ -7,9 +7,9 @@ import ry.rudenko.controlers.CityController;
 
 public class Main {
   public static void main(String[] args) {
+    System.out.println("Hello world)");
     new CleanDB().clean();
     new MigrateDB().createDB();
-
     new CityController().start();
   }
 }
