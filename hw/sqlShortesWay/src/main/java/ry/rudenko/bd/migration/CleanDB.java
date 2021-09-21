@@ -12,9 +12,9 @@ public class CleanDB {
 
   public static void main(String[] args) {
     try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-        Statement stmt = conn.createStatement();
+        Statement stmt = conn.createStatement()
     ) {
-      String sql = "DROP TABLE IF EXISTS locations, routes, problems, solutions CASCADE;";
+      String sql = "DROP TABLE IF EXISTS locations, routes, problems, solutions CASCADE";
 
       stmt.executeUpdate(sql);
 

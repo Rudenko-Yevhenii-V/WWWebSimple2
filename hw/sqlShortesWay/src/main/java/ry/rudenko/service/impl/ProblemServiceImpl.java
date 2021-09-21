@@ -14,26 +14,5 @@ public class ProblemServiceImpl implements ProblemService {
   @Override
   public void create(List<Problem> problems, Connection connection) {
     problemDao.create(problems, connection);
-
-  }
-
-  @Override
-  public void update(Problem problem, Connection connection) {
-
-  }
-
-  @Override
-  public void delete(String id, Connection connection) {
-
-  }
-
-  @Override
-  public Problem findById(String id, Connection connection) {
-    return null;
-  }
-
-  @Override
-  public List<Problem> findAll(Connection connection) {
-    return null;
   }
 }

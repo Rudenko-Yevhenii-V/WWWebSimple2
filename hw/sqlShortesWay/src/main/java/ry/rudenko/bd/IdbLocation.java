@@ -6,6 +6,6 @@ import java.util.List;
 import ry.rudenko.entity.Location;
 
 public interface IdbLocation {
- void create(List<Location> locationListList,Connection connection);
 
+  void create(List<Location> locationListList, Connection connection);
 }

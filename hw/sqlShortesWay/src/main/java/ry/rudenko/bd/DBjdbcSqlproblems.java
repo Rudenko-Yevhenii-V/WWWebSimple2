@@ -20,15 +20,14 @@ public class DBjdbcSqlproblems implements Idbproblems {
 
   @Override
   public void create(List<Problem> problemList, Connection connection) {
-    for (Problem baseEntity : problemList) {
-      Problem route = baseEntity;
+    for (Problem problem : problemList) {
       try (PreparedStatement test = connection.prepareStatement(
           "SELECT id FROM problems WHERE id = ?",
           PreparedStatement.RETURN_GENERATED_KEYS
       )) {
         test.setInt(1, problemList.size());
         final ResultSet resultSet = test.executeQuery();
-        if(resultSet.next()){
+        if (resultSet.next()) {
           System.err.println("problems db EXIST !!!!!");
           return;
         }
@@ -44,8 +43,8 @@ public class DBjdbcSqlproblems implements Idbproblems {
           "INSERT INTO problems (from_id, to_id) VALUES (?,?)",
           PreparedStatement.RETURN_GENERATED_KEYS
       )) {
-        insertContact.setInt(1, route.from_id());
-        insertContact.setInt(2, route.to_id());
+        insertContact.setInt(1, problem.from_id());
+        insertContact.setInt(2, problem.to_id());
         insertContact.execute();
         connection.commit();
       } catch (SQLException e) {

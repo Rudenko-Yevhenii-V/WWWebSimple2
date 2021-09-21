@@ -15,15 +15,15 @@ import ry.rudenko.entity.Location;
 import ry.rudenko.entity.Problem;
 import ry.rudenko.entity.Route;
 import ry.rudenko.entity.Solution;
+import ry.rudenko.service.impl.LocationServiceImpl;
+import ry.rudenko.service.impl.ProblemServiceImpl;
+import ry.rudenko.service.impl.RouteServiceImpl;
 import ry.rudenko.service.impl.SolutionServiceImpl;
 import ry.rudenko.util.Generate;
 import ry.rudenko.util.LoadProperty;
 import ry.rudenko.util.MostProfitableWay;
 
 public class CityController {
-
-  public static int countRoute;
-
   public void start() {
     List<Route> routes;
     List<Problem> problems;
@@ -35,17 +35,13 @@ public class CityController {
     String url = props.getProperty("url");
     try (Connection connection = DriverManager.getConnection(url, props)) {
       connection.setAutoCommit(false);
-//      new LocationServiceImpl().create(locations, connection);
-
+      new LocationServiceImpl().create(locations, connection);
       routes = initRoutes(connection, wayCost);
-//      new RouteServiceImpl().create(routes, connection);
-
+      new RouteServiceImpl().create(routes, connection);
       problems = initProblems(connection, wayToFind);
-//      new ProblemServiceImpl().create(problems, connection);
-
+      new ProblemServiceImpl().create(problems, connection);
       solutions = initSolutions(connection);
       new SolutionServiceImpl().create(solutions,connection);
-
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -63,8 +59,8 @@ public class CityController {
       }
       for (Integer problemId : solutionsId) {
         int[][] inputMatrix = new int[0][0];
-        Integer start = 0;
-        Integer stop = 0;
+        int start = 0;
+        int stop = 0;
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT COUNT(id)\n"
             + "FROM locations AS count");

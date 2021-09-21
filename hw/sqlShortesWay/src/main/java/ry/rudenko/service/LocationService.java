@@ -7,8 +7,5 @@ import ry.rudenko.entity.Location;
 public interface LocationService {
 
     void create(List<Location> locations, Connection connection);
-    void update(Location location, Connection connection);
-    void delete(String id, Connection connection);
-    Location findById(String id, Connection connection);
-    List<Location> findAll(Connection connection);
+
 }

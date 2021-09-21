@@ -20,8 +20,7 @@ public class DBjdbcSqlRoutes implements  IdbRoute{
 
   @Override
   public void create(List<Route> baseEntityList, Connection connection) {
-    for (Route baseEntity : baseEntityList) {
-      Route route = baseEntity;
+    for (Route route : baseEntityList) {
       try (PreparedStatement test = connection.prepareStatement(
           "SELECT id FROM routes WHERE id = ?",
           PreparedStatement.RETURN_GENERATED_KEYS

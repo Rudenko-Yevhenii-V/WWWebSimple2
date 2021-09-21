@@ -5,8 +5,4 @@ public record Location (
     String name
 ) implements BaseEntity{
 
-  public Location(Integer id, String name) {
-    this.id = id;
-    this.name = name;
-  }
 }

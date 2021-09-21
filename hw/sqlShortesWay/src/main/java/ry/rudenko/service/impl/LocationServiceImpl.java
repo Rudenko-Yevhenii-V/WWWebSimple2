@@ -15,24 +15,4 @@ public class LocationServiceImpl implements LocationService {
   public void create(List<Location> locations, Connection connection) {
     locationDao.create(locations, connection);
   }
-
-  @Override
-  public void update(Location location, Connection connection) {
-
-  }
-
-  @Override
-  public void delete(String id, Connection connection) {
-
-  }
-
-  @Override
-  public Location findById(String id, Connection connection) {
-    return null;
-  }
-
-  @Override
-  public List<Location> findAll(Connection connection) {
-    return null;
-  }
 }

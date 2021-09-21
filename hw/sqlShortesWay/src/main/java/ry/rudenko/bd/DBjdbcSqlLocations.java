@@ -2,10 +2,8 @@ package ry.rudenko.bd;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import ry.rudenko.entity.BaseEntity;
 import ry.rudenko.entity.Location;
 
 public class DBjdbcSqlLocations implements IdbLocation {
@@ -21,8 +19,7 @@ public class DBjdbcSqlLocations implements IdbLocation {
 
   @Override
   public void create(List<Location> locationList, Connection connection) {
-    for (BaseEntity baseEntity : locationList) {
-      Location location = (Location) baseEntity;
+    for (Location location : locationList) {
       try (PreparedStatement insertContact = connection.prepareStatement(
           "INSERT INTO locations (name) VALUES (?) ON CONFLICT DO NOTHING",
           PreparedStatement.RETURN_GENERATED_KEYS

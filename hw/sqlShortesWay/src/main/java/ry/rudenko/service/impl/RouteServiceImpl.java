@@ -15,26 +15,5 @@ public class RouteServiceImpl implements RouteService {
   @Override
   public void create(List<Route> routes, Connection connection) {
     routeDao.create(routes, connection);
-
-  }
-
-  @Override
-  public void update(Route route, Connection connection) {
-
-  }
-
-  @Override
-  public void delete(String id, Connection connection) {
-
-  }
-
-  @Override
-  public Route findById(String id, Connection connection) {
-    return null;
-  }
-
-  @Override
-  public List<Route> findAll(Connection connection) {
-    return null;
   }
 }

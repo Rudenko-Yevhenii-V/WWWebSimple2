@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.util.List;
 import ry.rudenko.bd.DBjdbcSqlLocations;
 import ry.rudenko.dao.LocationDao;
-import ry.rudenko.entity.BaseEntity;
 import ry.rudenko.entity.Location;
 
 public class LocationDaoImpl implements LocationDao {

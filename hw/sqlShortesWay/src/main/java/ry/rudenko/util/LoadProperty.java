@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.util.Properties;
-import ry.rudenko.JdbcBoxRunner;
 
 
 public class LoadProperty {
@@ -12,7 +11,7 @@ public class LoadProperty {
 
     Properties props = new Properties();
 
-    try(InputStream input = JdbcBoxRunner.class.getResourceAsStream("/jdbc.properties")) {
+    try(InputStream input = LoadProperty.class.getResourceAsStream("/jdbc.properties")) {
       props.load(input);
     } catch (IOException e) {
       throw new UncheckedIOException(e);

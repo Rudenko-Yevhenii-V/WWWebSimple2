@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import ry.rudenko.entity.BaseEntity;
-import ry.rudenko.entity.Location;
 import ry.rudenko.entity.Solution;
 
 public class DBjdbcSqlSolutions implements IdbSolutions{
@@ -21,8 +19,6 @@ public class DBjdbcSqlSolutions implements IdbSolutions{
 
   @Override
   public void create(List<Solution> baseEntityList, Connection connection) {
-    System.out.println("DBjdbcSqlSolutions.create " +  baseEntityList);
-
     for (Solution solution : baseEntityList) {
       try (PreparedStatement insertContact = connection.prepareStatement(
           "UPDATE solutions SET cost = ? WHERE problem_id = ? ",
