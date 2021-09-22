@@ -43,8 +43,12 @@ public class CityController {
       new ProblemServiceImpl().create(problems, connection);
       solutions = initSolutions(connection);
       new SolutionServiceImpl().create(solutions,connection);
+      System.out.println("_________________________________________________________________________________________________________");
       System.out.println(
-          "DBjdbcSql.getInstance().findAll() = " + DBjdbcSql.getInstance().findAll(connection));
+          "SELECT  cost AS \"price\",(SELECT name from locations\n"
+          + "where locations.id = (SELECT from_id FROM problems where solutions.problem_id = problems.id\n"
+          + "))AS \"from\",(SELECT name from locations where locations.id = (SELECT to_id FROM problems\n"
+          + "where solutions.problem_id = problems.id)) AS \"to\" FROM solutions;  = \n " + DBjdbcSql.getInstance().findAll(connection));
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

@@ -18,21 +18,29 @@ public class DBjdbcSql implements Idb {
 
   @Override
   public String findAll(Connection connection) {
+    String ret ="";
 
     try (PreparedStatement insertContact = connection.prepareStatement(
         """
-            SELECT solutions.cost, problems.from_id, problems.to_id
-            FROM solutions LEFT JOIN
-                problems  on problems.id = solutions.problem_id;""",
+            SELECT  cost AS "price",
+                   (SELECT name from locations
+                       where locations.id = (SELECT from_id FROM problems
+                                             where solutions.problem_id = problems.id
+                       ))AS "from",
+                    (SELECT name from locations
+                     where locations.id = (SELECT to_id FROM problems
+                                           where solutions.problem_id = problems.id
+                     )) AS "to"
+            FROM solutions;""",
         PreparedStatement.RETURN_GENERATED_KEYS
     )) {
       final ResultSet resultSet = insertContact.executeQuery();
       while (resultSet.next()) {
-        int cost = resultSet.getInt("cost");
-        int from_id = resultSet.getInt("from_id");
-        int to_id = resultSet.getInt("to_id");
-        System.out.println("price = " +cost
-            + " from " + from_id + " to " + to_id);
+        int cost = resultSet.getInt("price");
+        String from_id = resultSet.getString("from");
+        String to_id = resultSet.getString("to");
+        ret = "price = " +cost
+            + "  => from " + from_id + " to " + to_id;
       }
       connection.commit();
     } catch (SQLException e) {
@@ -43,6 +51,6 @@ public class DBjdbcSql implements Idb {
       }
       throw new RuntimeException(e);
     }
-    return "return";
+    return ret;
   }
 }
