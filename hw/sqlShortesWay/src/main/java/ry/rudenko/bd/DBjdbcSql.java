@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import ry.rudenko.entity.Location;
 
 public class DBjdbcSql implements Idb {
 
@@ -22,9 +20,10 @@ public class DBjdbcSql implements Idb {
   public String findAll(Connection connection) {
 
     try (PreparedStatement insertContact = connection.prepareStatement(
-        "SELECT solutions.cost, problems.from_id, problems.to_id\n"
-            + "FROM solutions LEFT JOIN\n"
-            + "    problems  on problems.id = solutions.problem_id;",
+        """
+            SELECT solutions.cost, problems.from_id, problems.to_id
+            FROM solutions LEFT JOIN
+                problems  on problems.id = solutions.problem_id;""",
         PreparedStatement.RETURN_GENERATED_KEYS
     )) {
       final ResultSet resultSet = insertContact.executeQuery();
