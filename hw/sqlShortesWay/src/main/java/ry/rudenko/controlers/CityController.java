@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
+import ry.rudenko.bd.DBjdbcSql;
 import ry.rudenko.entity.Location;
 import ry.rudenko.entity.Problem;
 import ry.rudenko.entity.Route;
@@ -42,6 +43,8 @@ public class CityController {
       new ProblemServiceImpl().create(problems, connection);
       solutions = initSolutions(connection);
       new SolutionServiceImpl().create(solutions,connection);
+      System.out.println(
+          "DBjdbcSql.getInstance().findAll() = " + DBjdbcSql.getInstance().findAll(connection));
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
