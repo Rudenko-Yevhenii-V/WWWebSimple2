@@ -41,10 +41,7 @@ public class Main {
       System.out.println(
           "_________________________________________________________________________________________________________");
       System.out.println(
-          "SELECT  cost AS \"price\",(SELECT name from locations\n"
-              + "where locations.id = (SELECT from_id FROM problems where solutions.problem_id = problems.id\n"
-              + "))AS \"from\",(SELECT name from locations where locations.id = (SELECT to_id FROM problems\n"
-              + "where solutions.problem_id = problems.id)) AS \"to\" FROM solutions;  = \n "
+          "solutions : \n "
               + DBjdbcSql.getInstance().findAll(connection));
 
     } catch (SQLException e) {
@@ -58,12 +55,19 @@ public class Main {
     List<Solution> solutions = new ArrayList<>();
     List<Integer> solutionsId = new ArrayList<>();
     try (PreparedStatement insertContact = connection.prepareStatement(
-        "SELECT problem_id FROM solutions"
+        "SELECT problem_id FROM solutions WHERE cost IS NULL"
     )) {
       ResultSet rs1 = insertContact.executeQuery();
+    boolean emp = true;
       while (rs1.next()) {
+        emp = false;
         final int problem_id = rs1.getInt("problem_id");
+        System.out.println("need solve  where  problem_id = " + problem_id);
         solutionsId.add(problem_id);
+      }
+      if(emp){
+        System.out.println("All problem have solution!");
+        System.exit(0);
       }
       for (Integer problemId : solutionsId) {
         int[][] inputMatrix = new int[0][0];
@@ -110,7 +114,11 @@ public class Main {
         }
         MostProfitableWay mostProfitableWay = new MostProfitableWay();
         final String outPut = mostProfitableWay.mostProfitableWay(start, stop, inputMatrix);
-        solutions.add(new Solution(problemId, Integer.parseInt(outPut.replaceAll("[^0-9]", ""))));
+        int cost = Integer.parseInt(outPut.replaceAll("[^0-9]", ""));
+        if (cost < 1){
+          System.out.println("City don't have way!");
+        }
+        solutions.add(new Solution(problemId, cost));
       }
     } catch (SQLException e) {
       LOGGER_ERROR.error(" connection : " + e);
