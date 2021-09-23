@@ -1,11 +1,10 @@
 package ry.rudenko.service;
 
-import java.sql.Connection;
 import java.util.List;
 import ry.rudenko.entity.Solution;
 
 public interface SolutionService {
 
-    void create(List<Solution> solutions, Connection connection);
+    void create(List<Solution> solutions);
 
 }

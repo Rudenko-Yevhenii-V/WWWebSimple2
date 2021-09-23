@@ -1,9 +1,7 @@
-package ry.rudenko.bd;
+package ry.rudenko.db;
 
 
 import java.sql.Connection;
-import java.util.List;
-import ry.rudenko.entity.Location;
 
 public interface Idb {
 

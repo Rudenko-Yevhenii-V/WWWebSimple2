@@ -1,18 +1,20 @@
 package ry.rudenko.service.impl;
 
 
-import java.sql.Connection;
 import java.util.List;
 import ry.rudenko.dao.ProblemDao;
-import ry.rudenko.dao.impl.ProblemDaoImpl;
 import ry.rudenko.entity.Problem;
 import ry.rudenko.service.ProblemService;
 
-public class ProblemServiceImpl implements ProblemService {
-  private final ProblemDao problemDao = new ProblemDaoImpl();
+public record ProblemServiceImpl(ProblemDao problemDao) implements ProblemService {
 
   @Override
-  public void create(List<Problem> problems, Connection connection) {
-    problemDao.create(problems, connection);
+  public void create(List<Problem> problems) {
+    problemDao.create(problems);
   }
 }
+
+
+
+
+

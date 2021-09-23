@@ -9,39 +9,36 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>sqlShortesWay</artifactId>
+  <artifactId>appProperties</artifactId>
+
   <properties>
-    <logs.folder>logsSqlShortesWay</logs.folder>
-    <logs.life.folder>life_logs</logs.life.folder>
-    <log.path>${logs.folder}/${logs.life.folder}</log.path>
-    <log.info>${log.path}/info.log</log.info>
-    <log.warn>${log.path}/warn.log</log.warn>
-    <log.error>${log.path}/error.log</log.error>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <junit-jupiter.version>5.8.0</junit-jupiter.version>
   </properties>
   <dependencies>
-
-    <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
     <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>42.2.23</version>
-      <scope>runtime</scope>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit-jupiter.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>${logback-classic.version}</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>RELEASE</version>
+      <scope>test</scope>
     </dependency>
-
+    <dependency>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+      <version>RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
+
   <build>
     <finalName>app</finalName>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
