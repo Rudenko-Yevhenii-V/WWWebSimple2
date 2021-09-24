@@ -17,6 +17,7 @@ public class Main {
           props);
       System.out.println("appProperties = " + appProperties);
     } catch (IOException e) {
+      System.err.println("InputStream" + e);
       throw new UncheckedIOException(e);
     }
   }

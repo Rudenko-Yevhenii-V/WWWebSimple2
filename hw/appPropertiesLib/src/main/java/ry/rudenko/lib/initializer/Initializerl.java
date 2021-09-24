@@ -27,6 +27,7 @@ public class Initializerl {
           field.setDouble(instance, Double.parseDouble(property));
         }
       } catch (IllegalAccessException e) {
+        System.err.println("init type of field " + e);
         e.printStackTrace();
       }
     }
