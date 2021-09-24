@@ -9,8 +9,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>appProperties</artifactId>
-
+  <artifactId>appPropertiesLib</artifactId>
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
@@ -33,12 +32,6 @@
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
       <version>RELEASE</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>ry.rudenko</groupId>
-      <artifactId>appPropertiesLib</artifactId>
-      <version>1.0-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
@@ -93,4 +86,5 @@
 
     </plugins>
   </build>
+
 </project>

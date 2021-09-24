@@ -11,6 +11,7 @@
   <modules>
     <module>sqlShortesWay</module>
     <module>appProperties</module>
+    <module>appPropertiesLib</module>
   </modules>
   <properties>
     <java.version>17</java.version>
