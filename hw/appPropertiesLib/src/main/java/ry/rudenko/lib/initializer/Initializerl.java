@@ -1,6 +1,7 @@
 package ry.rudenko.lib.initializer;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 import ry.rudenko.lib.annotations.PropertyKey;
 
@@ -36,8 +37,8 @@ return instance;
   private Object createObject(Class clazz) {
     Object o = null;
     try {
-      o = clazz.newInstance();
-    } catch (InstantiationException | IllegalAccessException e) {
+      o = clazz.getDeclaredConstructor().newInstance();
+    } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
       e.printStackTrace();
     }
     return o;
