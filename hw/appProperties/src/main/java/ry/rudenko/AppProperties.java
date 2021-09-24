@@ -1,16 +1,27 @@
 package ry.rudenko;
 
-import java.time.DayOfWeek;
-import ry.rudenko.annotations.PropertyKey;
+import ry.rudenko.lib.annotations.PropertyKey;
 
 public class AppProperties {
-  @PropertyKey("value1")
+  @PropertyKey("String")
   public String value1;
 
-  public String getValue1() {
-    return value1;
-  }
-//  @PropertyKey("day")
-//  DayOfWeek day;
+  @PropertyKey("int")
+  public int value2;
 
+  @PropertyKey("long")
+  public long value3;
+
+  @PropertyKey("double")
+  public double value4;
+
+  @Override
+  public String toString() {
+    return "AppProperties{" +
+        "value1='" + value1 + '\'' +
+        ", value2=" + value2 +
+        ", value3=" + value3 +
+        ", value4=" + value4 +
+        '}';
+  }
 }
