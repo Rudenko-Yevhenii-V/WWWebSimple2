@@ -2,6 +2,8 @@ package ry.rudenko.lib.initializer;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.time.DayOfWeek;
+import java.util.Date;
 import java.util.Properties;
 import ry.rudenko.lib.annotations.PropertyKey;
 
@@ -26,6 +28,10 @@ public class Initializerl {
         }else
         if (field.getType().equals(double.class)){
           field.setDouble(instance, Double.parseDouble(property));
+        }
+        else
+        if (field.getType().equals(Date.class)){
+          field.set(instance, new Date(Long.parseLong(property)));
         }
       } catch (IllegalAccessException e) {
         System.err.println("init type of field " + e);

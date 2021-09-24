@@ -1,5 +1,7 @@
 package ry.rudenko;
 
+import java.time.DayOfWeek;
+import java.util.Date;
 import ry.rudenko.lib.annotations.PropertyKey;
 
 public class AppProperties {
@@ -15,6 +17,9 @@ public class AppProperties {
   @PropertyKey("double")
   public double value4;
 
+  @PropertyKey("date")
+  public Date date;
+
   @Override
   public String toString() {
     return "AppProperties{" +
@@ -22,6 +27,7 @@ public class AppProperties {
         ", value2=" + value2 +
         ", value3=" + value3 +
         ", value4=" + value4 +
+        ", date=" + date +
         '}';
   }
 }
