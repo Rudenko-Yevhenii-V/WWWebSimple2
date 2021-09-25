@@ -1,50 +1,46 @@
 package ry.rudenko.data;
 
+import java.util.Calendar;
+import java.util.Date;
 import ry.rudenko.annotations.CsvMapping;
 import ry.rudenko.util.Gender;
 
 public class UserDetails {
   @CsvMapping("id")
-  public String name;
+  private int id;
 
   @CsvMapping("firstName")
-  private int age;
+  private String firstName;
 
   @CsvMapping("middleName")
-  public String gender;
+  private String middleName;
 
   @CsvMapping("lastName")
-  private String occupation;
+  private String lastName;
 
   @CsvMapping("birthDate")
-  private String birthDate;
+  private Calendar birthDate;
 
   @CsvMapping("gender")
-  private Gender gen;
+  private Gender gender;
 
   @CsvMapping("active")
-  private String active;
+  private boolean active;
 
   @CsvMapping("engagementScore")
-  private String engagementScore;
+  private double engagementScore;
 
   public UserDetails(){}
-
-//  public UserDetails(String name) {
-//    this.name = name;
-//
-//  }
-
 
   @Override
   public String toString() {
     return "UserDetails{" +
-        "name='" + name + '\'' +
-        ", age=" + age +
-        ", gender='" + gender + '\'' +
-        ", occupation='" + occupation + '\'' +
-        ", birthDate='" + birthDate + '\'' +
-        ", gen=" + gen +
+        "id='" + id + '\'' +
+        ", firstName=" + firstName +
+        ", middleName='" + middleName + '\'' +
+        ", lastName='" + lastName + '\'' +
+        ", birthDate='" + birthDate.getTime() + '\'' +
+        ", gender=" + gender +
         ", active='" + active + '\'' +
         ", engagementScore='" + engagementScore + '\'' +
         '}';

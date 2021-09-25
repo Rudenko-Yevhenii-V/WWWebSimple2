@@ -10,14 +10,15 @@ import java.util.Map;
 
 public class CsvParser {
 
-  public <T> Object parserCsv(Class<T> type, Path path) {
+  public <T> List<Object> parserCsv(Class<T> type, Path path) {
     Map<String, String[]> csvValues = new HashMap<>();
+    String[] splitToColumNames = new String[0];
     try {
       final List<String> csvLines = Files.readAllLines(path);
       if (csvLines.isEmpty()) {
         return null;
       }
-      String[] splitToColumNames = csvLines.get(0).split(",");
+      splitToColumNames = csvLines.get(0).split(",");
       String[][] splitColumVals = new String[splitToColumNames.length][csvLines.size() - 1];
       int count = 0;
       for (int i = 0; i < csvLines.size(); i++) {
@@ -36,6 +37,6 @@ public class CsvParser {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return new CsvMapper().mapperCsv(type, csvValues);
+    return new CsvMapper().mapperCsv(type, csvValues, splitToColumNames);
   }
 }
