@@ -8,9 +8,13 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ry.rudenko.annotations.CsvMapping;
 
 public class CsvMapper {
+
+  private static final Logger log = LoggerFactory.getLogger(CsvParser.class);
 
   public <T> List<Object> mapperCsv(Class<T> type, Map<String, String[]> map, String[] heders) {
     List<Object> objectList = new ArrayList<>();
@@ -61,7 +65,8 @@ public class CsvMapper {
           ));
         }
       } catch (IllegalAccessException e) {
-        e.printStackTrace();
+        log.error("Dont add value in fields", e);
+        throw new RuntimeException();
       }
     }
     return instance;
@@ -72,7 +77,8 @@ public class CsvMapper {
     try {
       o = clazz.getDeclaredConstructor().newInstance();
     } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-      e.printStackTrace();
+      log.error("Object o dont created", e);
+      throw new RuntimeException();
     }
     return o;
   }
