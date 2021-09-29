@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public class CsvParser {
   private static final Logger log = LoggerFactory.getLogger(CsvParser.class);
 
-  public <T> List<Object> parserCsv(Class<T> type, Path path) {
+  public CSVTable parserCsv(Path path) {
     log.info("In Path {}", path);
     Map<String, String[]> csvValues = new HashMap<>();
     String[] splitToColumNames;
@@ -44,6 +44,6 @@ public class CsvParser {
       log.error("csvValues faulted put", e);
       throw new RuntimeException();
     }
-    return new CsvMapper().mapperCsv(type, csvValues, splitToColumNames);
+    return new CSVTable(csvValues, splitToColumNames);
   }
 }

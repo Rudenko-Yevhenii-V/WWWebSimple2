@@ -1,7 +1,7 @@
 package ry.rudenko.data;
 
-import java.util.Calendar;
-import java.util.Date;
+
+import java.time.LocalDate;
 import ry.rudenko.annotations.CsvMapping;
 import ry.rudenko.util.Gender;
 
@@ -19,7 +19,7 @@ public class UserDetails {
   private String lastName;
 
   @CsvMapping("birthDate")
-  private Calendar birthDate;
+  private LocalDate birthDate;
 
   @CsvMapping("gender")
   private Gender gender;
@@ -35,14 +35,14 @@ public class UserDetails {
   @Override
   public String toString() {
     return "UserDetails{" +
-        "id='" + id + '\'' +
-        ", firstName=" + firstName +
+        "id=" + id +
+        ", firstName='" + firstName + '\'' +
         ", middleName='" + middleName + '\'' +
         ", lastName='" + lastName + '\'' +
-        ", birthDate='" + birthDate.getTime() + '\'' +
+        ", birthDate=" + birthDate +
         ", gender=" + gender +
-        ", active='" + active + '\'' +
-        ", engagementScore='" + engagementScore + '\'' +
+        ", active=" + active +
+        ", engagementScore=" + engagementScore +
         '}';
   }
 }
