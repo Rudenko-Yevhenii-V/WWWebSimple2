@@ -1,6 +1,8 @@
 package ry.rudenko.yevhenii.entity;
 
-import java.time.LocalDateTime;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,5 +31,16 @@ public class Lesson {
   @Column(name = "id", updatable = false, nullable = false)
   private UUID id;
   @Column
-private LocalDateTime dateTime;
+private Instant dateTime;
+
+  public void setDateTime(String dateTime) {
+
+    try {
+      this.dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+          .parse(dateTime).toInstant();
+    } catch (ParseException e) {
+//      log
+      e.printStackTrace();
+    }
+  }
 }

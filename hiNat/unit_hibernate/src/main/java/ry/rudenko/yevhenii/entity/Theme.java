@@ -17,8 +17,8 @@ import org.hibernate.annotations.GenericGenerator;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "student", schema = "public")
-public class Student {
+@Table(name = "theme", schema = "public")
+public class Theme {
   @Id
   @GeneratedValue(generator = "UUID")
   @GenericGenerator(
