@@ -17,19 +17,10 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "lessons", schema = "public")
-public class Lesson {
-  @Id
-  @GeneratedValue(generator = "UUID")
-  @GenericGenerator(
-      name = "UUID",
-      strategy = "org.hibernate.id.UUIDGenerator"
-  )
-  @Column(name = "id", updatable = false, nullable = false)
-  private UUID id;
+public class Lesson extends BaseEntity{
+
   @Column
 private Instant dateTime;
 

@@ -14,17 +14,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "group", schema = "public")
-public class Group  {
-  @Id
-  @GeneratedValue(generator = "UUID")
-  @GenericGenerator(
-      name = "UUID",
-      strategy = "org.hibernate.id.UUIDGenerator"
-  )
-  @Column(name = "id", updatable = false, nullable = false)
-  private UUID id;
+public class Group extends BaseEntity {
+
 }

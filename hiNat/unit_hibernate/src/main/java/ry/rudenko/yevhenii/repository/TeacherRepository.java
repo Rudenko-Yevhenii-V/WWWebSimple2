@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.UUID;
 import org.hibernate.Session;
 import ry.rudenko.yevhenii.entity.BaseEntity;
-import ry.rudenko.yevhenii.entity.Theme;
+import ry.rudenko.yevhenii.entity.Teacher;
 import ry.rudenko.yevhenii.util.BuildHibernateSessionFactory;
 
 
-public class ThemeRepository implements IRepository {
+public class TeacherRepository implements IRepository {
   private Session session;
 
   @Override
@@ -18,7 +18,7 @@ public class ThemeRepository implements IRepository {
 
   @Override
   public BaseEntity findById(UUID id) {
-    return BuildHibernateSessionFactory.buildSessionFactory().openSession().get(Theme.class, id);
+    return BuildHibernateSessionFactory.buildSessionFactory().openSession().get(Teacher.class, id);
   }
 
   @Override
@@ -36,6 +36,6 @@ public class ThemeRepository implements IRepository {
 
   }
 
-  public ThemeRepository() {
+  public TeacherRepository() {
   }
 }

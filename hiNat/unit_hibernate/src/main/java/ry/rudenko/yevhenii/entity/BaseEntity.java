@@ -18,4 +18,12 @@ public class BaseEntity {
   )
   @Column(name = "id", updatable = false, nullable = false)
   private UUID id;
+
+  public UUID getId() {
+    return id;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
+  }
 }
