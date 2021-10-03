@@ -14,8 +14,20 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "theme", schema = "public")
-public class Theme extends BaseEntity{
+public class Theme {
+  @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(
+      name = "UUID",
+      strategy = "org.hibernate.id.UUIDGenerator"
+  )
+  @Column(name = "id", updatable = false, nullable = false)
+  private UUID id;
 
+  @Column(name = "name", nullable = false)
+  private String name;
 }
