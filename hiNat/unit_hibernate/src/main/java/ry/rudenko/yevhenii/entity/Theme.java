@@ -25,9 +25,10 @@ public class Theme {
       name = "UUID",
       strategy = "org.hibernate.id.UUIDGenerator"
   )
-  @Column(name = "id", updatable = false, nullable = false)
+  @Column(name = "theme_id", updatable = false, nullable = false)
   private UUID id;
 
   @Column(name = "name", nullable = false)
   private String name;
+
 }

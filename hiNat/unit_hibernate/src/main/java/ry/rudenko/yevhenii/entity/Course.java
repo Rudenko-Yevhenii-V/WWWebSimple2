@@ -32,7 +32,7 @@ public class Course {
       name = "UUID",
       strategy = "org.hibernate.id.UUIDGenerator"
   )
-  @Column(name = "id", updatable = false, nullable = false)
+  @Column(name = "course_id", updatable = false, nullable = false)
   private UUID id;
   @Column(nullable = false)
   private String name;
@@ -41,12 +41,11 @@ public class Course {
   @JoinColumn(name = "teacher_id", nullable = false)
   private Teacher teacher;
 
-  @OneToMany(mappedBy = "course", cascade = CascadeType.ALL,
-      fetch = FetchType.LAZY, orphanRemoval = true)
-  private List<Lesson> lessons = new ArrayList<>();
 
-  @OneToMany(mappedBy = "course", cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
-  private List<Group> groups = new ArrayList<>();
+
+  @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+  @JoinColumn(name = "group_id", nullable = false)
+  private Group group;
 
 
 }

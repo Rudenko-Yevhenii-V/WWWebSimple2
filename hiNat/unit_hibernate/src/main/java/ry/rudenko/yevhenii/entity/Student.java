@@ -1,6 +1,7 @@
 package ry.rudenko.yevhenii.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -58,4 +59,12 @@ public class Student{
     inverseJoinColumns = @JoinColumn(name = "lessons_id")
 )
 private Set<Lesson> lessons;
+
+  public void setLessons(Set<Lesson> lessons) {
+    this.lessons = lessons;
+  }
+
+  public Set<Lesson> getLessons() {
+    return lessons;
+  }
 }

@@ -46,8 +46,8 @@ public class Lesson{
   private Theme theme;
 
   @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
-  @JoinColumn(name = "course_id", nullable = false)
-  private Course course;
+  @JoinColumn(name = "group_id", nullable = false)
+  private Group group;
 
   @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
   @JoinColumn(name = "teacher_id", nullable = false)
@@ -56,16 +56,4 @@ public class Lesson{
   @ManyToMany(mappedBy = "lessons")
   private Set<Student> students;
 
-
-
-  public void setDateTime(String dateTime) {
-
-    try {
-      this.dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-          .parse(dateTime).toInstant();
-    } catch (ParseException e) {
-//      log need
-      e.printStackTrace();
-    }
-  }
 }

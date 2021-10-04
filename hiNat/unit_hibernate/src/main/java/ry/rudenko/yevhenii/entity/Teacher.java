@@ -41,5 +41,5 @@ public class Teacher {
 
   @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL,
       fetch = FetchType.LAZY, orphanRemoval = true)
-  private List<Course> courses = new ArrayList<>();
+  private List<Course> courses;
 }

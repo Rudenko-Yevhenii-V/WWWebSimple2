@@ -28,7 +28,7 @@ public class Mark {
       name = "UUID",
       strategy = "org.hibernate.id.UUIDGenerator"
   )
-  @Column(name = "id", updatable = false, nullable = false)
+  @Column(name = "mark_id", updatable = false, nullable = false)
   private UUID id;
 
   @Column(nullable = false)

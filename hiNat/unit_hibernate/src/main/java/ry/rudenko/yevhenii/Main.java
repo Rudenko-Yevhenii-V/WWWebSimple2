@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import ry.rudenko.yevhenii.entity.Course;
+import ry.rudenko.yevhenii.entity.Student;
 import ry.rudenko.yevhenii.entity.Teacher;
 import ry.rudenko.yevhenii.util.BuildHibernateSessionFactory;
 import ry.rudenko.yevhenii.util.InitTablesSql;
@@ -14,20 +15,16 @@ import ry.rudenko.yevhenii.util.InitTablesSql;
 public class Main {
 
   public static void main(String[] args) {
-    new InitTablesSql().initTablesSql();
-//    SessionFactory sessionFactory =  BuildHibernateSessionFactory.buildSessionFactory();
-//    Session session = sessionFactory.openSession();
-//
-//    final Transaction transaction = session.getTransaction();
-//    transaction.begin();
-//
-//
-//
-//
-////    session.save(course);
-//    transaction.commit();
-//    session.close();
-////    transaction.rollback();
+
+    SessionFactory sessionFactory =  BuildHibernateSessionFactory.buildSessionFactory();
+    Session session = sessionFactory.openSession();
+
+    final Student student = session.get(Student.class, 1l);
+    System.out.println("student.getFirstName() = " + student.getFirstName());
+    System.out.println("student.getLastName() = " + student.getLastName());
+
+
+    session.close();
 
   }
 
