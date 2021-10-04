@@ -47,5 +47,8 @@ public class Course {
   @JoinColumn(name = "group_id", nullable = false)
   private Group group;
 
+  @OneToMany(mappedBy = "course", cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
+  private List<Theme> themes;
+
 
 }

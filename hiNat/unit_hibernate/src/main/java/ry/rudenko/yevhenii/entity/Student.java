@@ -24,7 +24,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -60,11 +60,51 @@ public class Student{
 )
 private Set<Lesson> lessons;
 
-  public void setLessons(Set<Lesson> lessons) {
-    this.lessons = lessons;
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public Group getGroup() {
+    return group;
+  }
+
+  public void setGroup(Group group) {
+    this.group = group;
+  }
+
+  public List<Mark> getMarks() {
+    return marks;
+  }
+
+  public void setMarks(List<Mark> marks) {
+    this.marks = marks;
   }
 
   public Set<Lesson> getLessons() {
     return lessons;
+  }
+
+  public void setLessons(Set<Lesson> lessons) {
+    this.lessons = lessons;
   }
 }
