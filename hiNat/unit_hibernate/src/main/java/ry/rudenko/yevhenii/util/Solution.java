@@ -4,6 +4,8 @@ package ry.rudenko.yevhenii.util;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Set;
+import javax.persistence.EntityManager;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import ry.rudenko.yevhenii.entity.Course;
 import ry.rudenko.yevhenii.entity.Group;
@@ -17,8 +19,10 @@ import ry.rudenko.yevhenii.service.impl.StudentServiceImpl;
 public class Solution {
   public  void findNextLessonCommand(){
     final SessionFactory sessionFactory = BuildHibernateSessionFactory.buildSessionFactory();
+//    final Student student = new StudentServiceImpl(
+//        new StudentRepository(sessionFactory)).findById(1L);
     final Student student = new StudentServiceImpl(
-        new StudentRepository(sessionFactory)).findById(1L);
+        new StudentRepository(sessionFactory)).findByPhone(88L);
     System.out.printf("|%-25s|%-15s|%-15s|%-15s|%-15s|\n","start of classes","teacher","Theme", "Group", "course");
     final Group group = student.getGroup();
     final Set<Lesson> lessons = student.getLessons();
@@ -43,5 +47,4 @@ public class Solution {
         theme.getName(), group.getName(),course.getName());
     System.out.println();
   }
-
 }

@@ -97,12 +97,14 @@ public class InitTablesSql {
       Student rudenko = Student.builder()
           .firstName("Yevhenii")
           .lastName("Rudenko")
+          .phone(88l)
           .group(NIX7)
           .lessons(lessons)
           .build();
       session.save(rudenko);
       Student fancy = Student.builder()
           .firstName("Tanya")
+          .phone(81l)
           .lastName("Fancy")
           .group(NIX7)
           .lessons(lessons)
@@ -111,6 +113,7 @@ public class InitTablesSql {
       Student kvitka = Student.builder()
           .firstName("alla")
           .lastName("kvitka")
+          .phone(99L)
           .group(NIX7)
           .lessons(lessons)
           .build();
@@ -118,6 +121,7 @@ public class InitTablesSql {
       Student nast = Student.builder()
           .firstName("Liubov")
           .lastName("Nast")
+          .phone(78L)
           .group(NIX7)
           .lessons(lessons)
           .build();
@@ -125,6 +129,7 @@ public class InitTablesSql {
       Student kilimnik = Student.builder()
           .firstName("Diana")
           .lastName("Kilimnik")
+          .phone(67L)
           .group(NIX7)
           .lessons(lessons)
           .build();

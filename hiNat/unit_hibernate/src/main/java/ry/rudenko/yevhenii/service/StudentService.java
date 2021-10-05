@@ -5,4 +5,5 @@ import ry.rudenko.yevhenii.entity.Student;
 
 public interface StudentService {
   Student findById(Long id);
+  Student findByPhone(Long Phone);
 }

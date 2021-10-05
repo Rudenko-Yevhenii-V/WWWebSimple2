@@ -16,4 +16,9 @@ private final StudentRepository studentRepository;
   public Student findById(Long id) {
     return studentRepository.findById(id);
   }
+
+  @Override
+  public Student findByPhone(Long Phone) {
+    return studentRepository.findByPhone(Phone);
+  }
 }

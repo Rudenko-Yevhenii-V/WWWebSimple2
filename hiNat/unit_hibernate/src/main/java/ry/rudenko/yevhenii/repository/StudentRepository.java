@@ -14,5 +14,10 @@ public class StudentRepository {
   public Student findById(Long id){
     return session.get(Student.class, id);
   }
+  public Student findByPhone(Long phone){
+    return session.unwrap(Session.class)
+        .bySimpleNaturalId(Student.class)
+        .load(phone);
+  }
 
 }
