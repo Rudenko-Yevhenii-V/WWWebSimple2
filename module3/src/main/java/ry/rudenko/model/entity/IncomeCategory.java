@@ -3,6 +3,7 @@ package ry.rudenko.model.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,12 +15,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Builder
-//@Entity
-//@Table(name = "income-category")
-public class IncomeCategory implements Serializable {
+@NoArgsConstructor
+@Entity
+@DiscriminatorValue("income")
+@Table(name = "income-category")
+public class IncomeCategory extends Category implements Serializable {
 //  @Id
 //  @GeneratedValue(strategy = GenerationType.IDENTITY)
 //  @Column(name = "id_category")
@@ -28,19 +28,5 @@ public class IncomeCategory implements Serializable {
 //  @Column(name = "action_type_category")
 //  private String actionType;
 //
-//  public Long getId() {
-//    return id;
-//  }
-//
-//  public void setId(Long id) {
-//    this.id = id;
-//  }
-//
-//  public String getActionType() {
-//    return actionType;
-//  }
-//
-//  public void setActionType(String actionType) {
-//    this.actionType = actionType;
-//  }
+
 }

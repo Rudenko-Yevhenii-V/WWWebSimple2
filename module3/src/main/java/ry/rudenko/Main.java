@@ -11,38 +11,65 @@ import ry.rudenko.model.entity.User;
 import ry.rudenko.util.BuildHibernateSessionFactory;
 
 public class Main {
+  private static String dbName = null;
+  private static String dbPass = null;
+  private static String phone = null;
+
+  public static String getDbName() {
+    return dbName;
+  }
+
+  public static String getDbPass() {
+    return dbPass;
+  }
+
+  public static String getPhone() {
+    return phone;
+  }
+
+
   private static final Logger log = LoggerFactory.getLogger(Main.class);
   public static void main(String[] args) {
+    dbName = args[0];
+    dbPass = args[1];
+    phone = args[2];
+    System.out.println( dbName +"  " + dbPass +"  " + phone);
+
     log.info("Main info");
     log.warn("Main warn");
     log.error("Main error");
-    System.out.println("Main.main");
     final SessionFactory sessionFactory = BuildHibernateSessionFactory.buildSessionFactory();
     final Session session = sessionFactory.openSession();
     final Transaction transaction = session.getTransaction();
 //    transaction.begin();
 //    User user1 = User.builder()
-//        .name("user 1")
+//        .name("user rttr")
+//        .phone("+380997548625")
 //        .build();
 //    session.save(user1);
 //    User user2 = User.builder()
 //        .name("user 2")
+//        .phone("phone2")
 //        .build();
 //    session.save(user2);
 //    User user3 = User.builder()
 //        .name("user 3")
+//        .phone("phone3")
 //        .build();
 //    session.save(user3);
 //    User user4 = User.builder()
 //        .name("user 4")
+//        .phone("phone4")
 //        .build();
 //    session.save(user4);
-//
+
 //    transaction.commit();
 //    session.close();
 
-    final User user = session.get(User.class, 1L);
-    System.out.println("user.getName() = " + user.getName());
+//    final User user = session.unwrap(Session.class)
+//        .bySimpleNaturalId(User.class)
+//        .load(Main.getPhone());
+//    System.out.println("user.getName() = " + user.getName());
 
 
   }

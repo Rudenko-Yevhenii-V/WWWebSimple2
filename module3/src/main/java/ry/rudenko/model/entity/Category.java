@@ -2,17 +2,18 @@ package ry.rudenko.model.entity;
 
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,8 +25,10 @@ import org.hibernate.annotations.GenericGenerator;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "accounts")
-public class Account implements Serializable {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "income_or_expense", discriminatorType = DiscriminatorType.STRING)
+@Table(name = "category")
+public class Category implements Serializable {
 
   @Id
   @GeneratedValue(generator = "UUID")
@@ -33,22 +36,16 @@ public class Account implements Serializable {
       name = "UUID",
       strategy = "org.hibernate.id.UUIDGenerator"
   )
-  @Column(name = "account_id", updatable = false, nullable = false)
+  @Column(name = "category_id", updatable = false, nullable = false)
   private UUID id;
 
-    @Column(nullable=false)
-  private BigInteger balance;
+    @Column(name = "action_type",nullable=false)
+  private String actionType;
 
 
 //
-//  @ManyToOne
-//  @JoinColumn(name="user_id", nullable = false)
-//  private User user;
-//
-
-//
-//  @OneToMany(mappedBy = "account")
-//  private List<Operation> operations;
+//  @ManyToMany
+//  List<Operation> operations;
 //
 
 
@@ -60,11 +57,12 @@ public class Account implements Serializable {
     this.id = id;
   }
 
-  public BigInteger getBalance() {
-    return balance;
+  public String getActionType() {
+    return actionType;
   }
 
-  public void setBalance(BigInteger balance) {
-    this.balance = balance;
+  public void setActionType(String actionType) {
+    this.actionType = actionType;
   }
+
 }
