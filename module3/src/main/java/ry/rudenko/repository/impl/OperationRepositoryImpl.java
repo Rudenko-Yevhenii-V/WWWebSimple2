@@ -1,21 +1,20 @@
 package ry.rudenko.repository.impl;
 
+import java.util.UUID;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ry.rudenko.exception.EmptySessionException;
 import ry.rudenko.model.entity.Operation;
 import ry.rudenko.repository.OperationRepository;
-import ry.rudenko.service.AccountService;
 import ry.rudenko.service.impl.AccountServiceImpl;
 
 public class OperationRepositoryImpl implements OperationRepository {
 
   private static final Logger log = LoggerFactory.getLogger(OperationRepositoryImpl.class);
 
-  private Session session;
+  private final Session session;
   final Transaction transaction;
 
   public OperationRepositoryImpl(Session session) throws EmptySessionException {
@@ -26,11 +25,10 @@ public class OperationRepositoryImpl implements OperationRepository {
       log.error("Session not transferred!");
         throw new EmptySessionException("Session not transferred!");
     }
-
   }
 
   @Override
-  public Operation findById(Long id) {
+  public Operation findById(UUID id) {
     return session.get(Operation.class, id);
   }
 

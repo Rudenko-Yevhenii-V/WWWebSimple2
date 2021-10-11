@@ -18,7 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -30,9 +29,13 @@ import org.hibernate.annotations.GenericGenerator;
 public class Account implements Serializable {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(
+      name = "UUID",
+      strategy = "org.hibernate.id.UUIDGenerator"
+  )
   @Column(name = "account_id", updatable = false, nullable = false)
-  private Long id;
+  private UUID id;
 
   @Column(nullable = false)
   private BigInteger balance;
@@ -45,11 +48,11 @@ public class Account implements Serializable {
       fetch = FetchType.LAZY, orphanRemoval = true)
   private List<Operation> operations;
 
-  public Long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 

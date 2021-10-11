@@ -10,7 +10,6 @@
 <!--    <appender-ref ref="STDOUT" />-->
 <!--  </root>-->
 
-
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
       <file>${log.info}</file>
       <encoder>

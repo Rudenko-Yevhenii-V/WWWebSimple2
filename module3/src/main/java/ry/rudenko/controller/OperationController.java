@@ -9,15 +9,11 @@ import java.util.List;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ry.rudenko.Main;
 import ry.rudenko.exception.EmptySessionException;
 import ry.rudenko.model.entity.Account;
-import ry.rudenko.model.entity.IncomeCategory;
 import ry.rudenko.model.entity.Operation;
 import ry.rudenko.model.entity.User;
-import ry.rudenko.repository.UserRepository;
 import ry.rudenko.repository.impl.AccountRepositoryImpl;
-import ry.rudenko.repository.impl.CategoryRepositoryImpl;
 import ry.rudenko.repository.impl.OperationRepositoryImpl;
 import ry.rudenko.repository.impl.UserRepositoryImpl;
 import ry.rudenko.service.impl.OperationServiceImpl;
@@ -29,7 +25,6 @@ public class OperationController {
   final Session session = BuildHibernateSessionFactory.buildSessionFactory().openSession();
 
   public void createOperation(String phone) {
-    final Operation operation;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     try {
       final User user = new UserRepositoryImpl(session).findByPhone(phone);
@@ -37,27 +32,28 @@ public class OperationController {
       System.out.println("select your account:");
       Account selectedAccount = null;
       final List<Account> accountsByUser = new AccountRepositoryImpl(session).findByUserId(user);
-      for (int i = 0, accountsByUserSize = accountsByUser.size(); i < accountsByUserSize; i++) {
-        Account account = accountsByUser.get(i);
+      System.out.println("accountsByUser.size() = " + accountsByUser.size());
+      for (Account account : accountsByUser) {
         System.out.println(
             "account number: " + account.getId() + " =>  balance=" + account.getBalance());
       }
       System.out.println("Enter number of account:");
-      Long idAccount = Long.parseLong(reader.readLine().replaceAll("[^0-9]", ""));
+      String idAccount = reader.readLine();
       for (Account account : accountsByUser) {
-        if (account.getId().equals(idAccount)){
+        if (String.valueOf(account.getId()).equals(idAccount)) {
           selectedAccount = account;
         }
       }
       System.out.println("Enter amount of operation: ");
       final BigInteger amount = new BigInteger(reader.readLine());
-      new OperationServiceImpl(
+      assert selectedAccount != null;
+      final Operation operation = new OperationServiceImpl(
           new OperationRepositoryImpl(session)).addOperation(
           selectedAccount.getId()
           , choiceTypeOfOperation(reader)
           , amount
-          ,choiceIncome(reader)
-          ,enterActionType(reader)
+          , choiceIncome(reader)
+          , enterActionType(reader)
       );
     } catch (EmptySessionException | IOException e) {
       log.error("Session did not transferred! ", e);
@@ -73,10 +69,7 @@ public class OperationController {
 
   private Boolean choiceIncome(BufferedReader reader) throws IOException {
     System.out.println("profit or waste? \nIf profit enter 1 else waste");
-    if (reader.readLine().equals("1")){
-      return true;
-    }
-    return false;
+    return reader.readLine().equals("1");
   }
 
   private String choiceTypeOfOperation(BufferedReader reader) throws IOException {
@@ -84,7 +77,7 @@ public class OperationController {
     System.out.println("mandatory spending, enter 1");
     System.out.println("ad hoc expenses   , enter 2");
     System.out.println("other             , enter 3");
-    switch (reader.readLine()){
+    switch (reader.readLine()) {
       case "1":
         return "mandatory spending";
       case "2":

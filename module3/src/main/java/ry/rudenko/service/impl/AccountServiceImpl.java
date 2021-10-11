@@ -1,20 +1,16 @@
 package ry.rudenko.service.impl;
 
 
+import java.util.UUID;
 import ry.rudenko.model.entity.Account;
 import ry.rudenko.repository.AccountRepository;
 import ry.rudenko.service.AccountService;
 
-public class AccountServiceImpl implements AccountService {
-
-  private final AccountRepository accountRepository;
-
-  public AccountServiceImpl(AccountRepository accountRepository) {
-    this.accountRepository = accountRepository;
-  }
+public record AccountServiceImpl(
+    AccountRepository accountRepository) implements AccountService {
 
   @Override
-  public Account findById(Long id) {
+  public Account findById(UUID id) {
     return accountRepository.findById(id);
   }
 

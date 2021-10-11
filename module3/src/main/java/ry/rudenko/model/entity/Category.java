@@ -1,7 +1,6 @@
 package ry.rudenko.model.entity;
 
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 import javax.persistence.CascadeType;
@@ -15,12 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -33,9 +28,13 @@ import org.hibernate.annotations.GenericGenerator;
 public abstract class Category {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(
+      name = "UUID",
+      strategy = "org.hibernate.id.UUIDGenerator"
+  )
   @Column(name = "category_id", updatable = false, nullable = false)
-  private Long id;
+  private UUID id;
 
   @Column(name = "action_type", nullable = false, unique = true)
   private String actionType;
@@ -45,11 +44,11 @@ public abstract class Category {
   private List<Operation> operations;
 
 
-  public Long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -69,12 +68,10 @@ public abstract class Category {
     this.operations = operations;
   }
 
-  public Category(Long id, String actionType,
+  public Category(UUID id, String actionType,
       List<Operation> operations) {
     this.id = id;
     this.actionType = actionType;
     this.operations = operations;
   }
-
-
 }

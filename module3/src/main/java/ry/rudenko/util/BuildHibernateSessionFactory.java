@@ -24,7 +24,6 @@ public class BuildHibernateSessionFactory {
   }
   public static SessionFactory buildSessionFactory(){
     try{
-
       Configuration configuration = new Configuration();
       configuration.setProperty("hibernate.connection.username", Main.getDbName());
       configuration.setProperty("hibernate.connection.password", Main.getDbPass());

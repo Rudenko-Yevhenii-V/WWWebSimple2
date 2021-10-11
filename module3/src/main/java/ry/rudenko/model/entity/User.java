@@ -2,7 +2,6 @@ package ry.rudenko.model.entity;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,9 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
 
@@ -33,7 +30,7 @@ public class User implements Serializable {
   @Column(name = "user_id", updatable = false, nullable = false)
   private Long id;
 
-  @Column(nullable=false)
+  @Column(nullable = false)
   private String name;
 
   @NaturalId
