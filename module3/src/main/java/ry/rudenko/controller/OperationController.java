@@ -32,7 +32,6 @@ public class OperationController {
       System.out.println("select your account:");
       Account selectedAccount = null;
       final List<Account> accountsByUser = new AccountRepositoryImpl(session).findByUserId(user);
-      System.out.println("accountsByUser.size() = " + accountsByUser.size());
       for (Account account : accountsByUser) {
         System.out.println(
             "account number: " + account.getId() + " =>  balance=" + account.getBalance());
