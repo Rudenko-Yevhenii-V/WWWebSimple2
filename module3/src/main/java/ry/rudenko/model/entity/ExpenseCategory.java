@@ -20,7 +20,9 @@ import lombok.NoArgsConstructor;
 @DiscriminatorValue("2")
 @Table(name = "expense_category")
 public class ExpenseCategory extends Category implements Serializable {
-
+  public ExpenseCategory(String actionType) {
+    super.setActionType(actionType);
+  }
 //
 //   @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,
 //      mappedBy = "expenseCategory")

@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import ry.rudenko.exception.EmptySessionException;
 import ry.rudenko.model.entity.Operation;
 import ry.rudenko.repository.OperationRepository;
+import ry.rudenko.service.AccountService;
+import ry.rudenko.service.impl.AccountServiceImpl;
 
 public class OperationRepositoryImpl implements OperationRepository {
 
@@ -29,20 +31,19 @@ public class OperationRepositoryImpl implements OperationRepository {
 
   @Override
   public Operation findById(Long id) {
-    return null;
+    return session.get(Operation.class, id);
   }
 
   @Override
   public Operation addOperation(Operation operation) {
-    System.out.println("getActionType = " + operation.getCategory().getActionType());
           transaction.begin();
     try {
-
       session.save(operation);
+      new AccountServiceImpl(new AccountRepositoryImpl(session)).updete(operation.getAccount());
       transaction.commit();
-
     } catch (Exception e) {
       transaction.rollback();
+      System.err.println("rollback" + e);
       log.error("Error during transaction", e);
     }
     return operation;

@@ -6,6 +6,6 @@ import ry.rudenko.model.entity.Operation;
 
 public interface OperationService {
   Operation findById(Long id);
-  Operation addOperation(String phone, String type, BigInteger amount);
+  Operation addOperation(Long idAccount, String type, BigInteger amount,Boolean income, String actionType);
 
 }

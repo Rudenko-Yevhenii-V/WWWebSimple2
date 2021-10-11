@@ -17,7 +17,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
   public CategoryRepositoryImpl(Session session) throws EmptySessionException {
     if(session.isOpen()){
-      System.out.println("CategoryRepositoryImpl session.isOpen() = " + session.isOpen());
       this.session = session;
     }else {
       log.error("Session not transferred!");
