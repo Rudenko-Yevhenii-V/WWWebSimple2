@@ -3,8 +3,10 @@ package ry.rudenko.model.entity;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,13 +29,9 @@ public class User implements Serializable {
 
 
   @Id
-  @GeneratedValue(generator = "UUID")
-  @GenericGenerator(
-      name = "UUID",
-      strategy = "org.hibernate.id.UUIDGenerator"
-  )
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "user_id", updatable = false, nullable = false)
-  private UUID id;
+  private Long id;
 
   @Column(nullable=false)
   private String name;
@@ -42,19 +40,24 @@ public class User implements Serializable {
   @Column(name = "phone_number", nullable = false, unique = true)
   private String phone;
 
-
-//  @Column(name="phoneNumber", unique=true, nullable=false)
-//  private String phoneNumber;
-//
-//  @OneToMany(mappedBy = "user")
-//  private List<Account> accounts;
+  @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH,
+      fetch = FetchType.LAZY, orphanRemoval = true)
+  private List<Account> accounts;
 
 
-  public UUID getId() {
+  public List<Account> getAccounts() {
+    return accounts;
+  }
+
+  public void setAccounts(List<Account> accounts) {
+    this.accounts = accounts;
+  }
+
+  public Long getId() {
     return id;
   }
 
-  public void setId(UUID id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -72,5 +75,15 @@ public class User implements Serializable {
 
   public void setPhone(String phone) {
     this.phone = phone;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", phone='" + phone + '\'' +
+        ", accounts=" + accounts +
+        '}';
   }
 }

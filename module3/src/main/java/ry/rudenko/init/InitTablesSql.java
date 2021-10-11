@@ -1,147 +1,118 @@
 package ry.rudenko.init;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Set;
+import java.math.BigInteger;
+import java.time.Instant;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ry.rudenko.model.entity.Account;
+import ry.rudenko.model.entity.Category;
+import ry.rudenko.model.entity.ExpenseCategory;
+import ry.rudenko.model.entity.IncomeCategory;
+import ry.rudenko.model.entity.Operation;
+import ry.rudenko.model.entity.User;
 import ry.rudenko.util.BuildHibernateSessionFactory;
 
 
 public class InitTablesSql {
+  private static final Logger log = LoggerFactory.getLogger(InitTablesSql.class);
 
   public void initTablesSql() {
     SessionFactory sessionFactory = BuildHibernateSessionFactory.buildSessionFactory();
-
     Session session = sessionFactory.openSession();
     final Transaction transaction = session.getTransaction();
     transaction.begin();
 //    try {
-////      Teacher Egor = Teacher.builder()
-////          .firstName("Egor")
-////          .lastName("LastName")
-////          .build();
-////      session.save(Egor);
-////      Teacher Misha = Teacher.builder()
-////          .firstName("Misha")
-////          .lastName("LastName")
-////          .build();
-////      session.save(Misha);
-////      Group NIX7 = Group.builder()
-////          .name("NIX7")
-////          .build();
-////      session.save(NIX7);
-////      Course courseJavaCore = Course.builder()
-////          .name("JAVA core")
-////          .teacher(Egor)
-////          .group(NIX7)
-////          .build();
-////      session.save(courseJavaCore);
-////      Course courseJavaWeb = Course.builder()
-////          .name("JAVA web")
-////          .teacher(Misha)
-////          .group(NIX7)
-////          .build();
-////      session.save(courseJavaWeb);
-////
-////      Theme sql = Theme.builder()
-////          .name("sql")
-////          .course(courseJavaWeb)
-////          .build();
-////      session.save(sql);
-////      Theme jdbc = Theme.builder()
-////          .name("jdbc")
-////          .course(courseJavaWeb)
-////          .build();
-////      session.save(jdbc);
-////      Theme hibernate = Theme.builder()
-////          .name("hibernate")
-////          .course(courseJavaWeb)
-////          .build();
-////      session.save(hibernate);
-////      Lesson lesson1 = Lesson.builder()
-////          .dateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-////              .parse("2021-10-02 11:00:00").toInstant())
-////          .group(NIX7)
-////          .teacher(Misha)
-////          .theme(sql)
-////          .build();
-////      session.save(lesson1);
-////      Lesson lesson2 = Lesson.builder()
-////          .dateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-////              .parse("2021-10-05 19:00:00").toInstant())
-////          .group(NIX7)
-////          .teacher(Misha)
-////          .theme(jdbc)
-////          .build();
-////      session.save(lesson2);
-////      Lesson lesson3 = Lesson.builder()
-////          .dateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-////              .parse("2021-10-09 11:00:00").toInstant())
-////          .group(NIX7)
-////          .teacher(Misha)
-////          .theme(hibernate)
-////          .build();
-////      session.save(lesson3);
-////      Set<Lesson> lessons = new HashSet<>();
-////      lessons.add(lesson1);
-////      lessons.add(lesson2);
-////      lessons.add(lesson3);
-////      Student rudenko = Student.builder()
-////          .firstName("Yevhenii")
-////          .lastName("Rudenko")
-////          .phone(88l)
-////          .group(NIX7)
-////          .lessons(lessons)
-////          .build();
-////      session.save(rudenko);
-////      Student fancy = Student.builder()
-////          .firstName("Tanya")
-////          .phone(81l)
-////          .lastName("Fancy")
-////          .group(NIX7)
-////          .lessons(lessons)
-////          .build();
-////      session.save(fancy);
-////      Student kvitka = Student.builder()
-////          .firstName("alla")
-////          .lastName("kvitka")
-////          .phone(99L)
-////          .group(NIX7)
-////          .lessons(lessons)
-////          .build();
-////      session.save(kvitka);
-////      Student nast = Student.builder()
-////          .firstName("Liubov")
-////          .lastName("Nast")
-////          .phone(78L)
-////          .group(NIX7)
-////          .lessons(lessons)
-////          .build();
-////      session.save(nast);
-////      Student kilimnik = Student.builder()
-////          .firstName("Diana")
-////          .lastName("Kilimnik")
-////          .phone(67L)
-////          .group(NIX7)
-////          .lessons(lessons)
-////          .build();
-////      session.save(kilimnik);
-////      Mark mark1 = Mark.builder()
-////          .mark(1)
-////          .student(rudenko)
-////          .lesson(lesson1)
-////          .group(NIX7)
-////          .build();
-////      session.save(mark1);
-//      transaction.commit();
-//      session.close();
+
+
+//    ExpenseCategory expenseCategory = new ExpenseCategory();
+//    expenseCategory.setActionType("buy some21");
+//      session.save(expenseCategory);
+//
+//    IncomeCategory incomeCategory = new IncomeCategory();
+//    incomeCategory.setActionType("sold some21");
+//    session.save(incomeCategory);
+//
+//    ExpenseCategory expenseCategory1 = new ExpenseCategory();
+//    expenseCategory1.setActionType("buy fgf1");
+//    session.save(expenseCategory1);
+//
+//    IncomeCategory incomeCategory1 = new IncomeCategory();
+//    incomeCategory1.setActionType("sold rtr1");
+//    session.save(incomeCategory1);
+    transaction.commit();
+    transaction.begin();
+
+
+    User user1 = User.builder()
+        .phone("+380997548625")
+        .name("user1")
+        .build();
+    session.save(user1);
+    User user2 = User.builder()
+        .phone("12")
+        .name("user2")
+        .build();
+    session.save(user2);
+    Account account1 = Account.builder()
+        .balance(new BigInteger("1000"))
+        .user(user1)
+        .build();
+    session.save(account1);
+
+    Account account2 = Account.builder()
+        .balance(new BigInteger("2000"))
+        .user(user1)
+        .build();
+    session.save(account2);
+
+    Account account3 = Account.builder()
+        .balance(new BigInteger("3000"))
+        .user(user2)
+        .build();
+    session.save(account3);
+
+
+//
+//    Operation operation1 = Operation.builder()
+//        .date(Instant.now())
+//        .type("mandatory spending")
+//        .amount(new BigInteger("222222"))
+//        .category(incomeCategory1)
+////        .expenseCategory(expenseCategory1)
+//        .account(account1)
+//        .build();
+//    session.save(operation1);
+//
+//    Operation operation2 = Operation.builder()
+//        .date(Instant.now())
+//        .type("ad hoc expenses")
+//        .amount(new BigInteger("2"))
+//        .expenseCategory(expenseCategory1)
+//        .account(account1)
+//        .build();
+//    session.save(operation2);
+//
+//    Operation operation3 = Operation.builder()
+//        .date(Instant.now())
+//        .type("other")
+//        .amount(new BigInteger("2"))
+//        .expenseCategory(expenseCategory)
+//        .account(account1)
+//        .build();
+//    session.save(operation3);
+
+
+    transaction.commit();
+      session.close();
 //    } catch (ParseException e) {
 //      transaction.rollback();
-//      e.printStackTrace();
+//      log.error("Transaction rollback", e);
+//      throw new RuntimeException("Transaction rollback");
 //    }
   }
 }

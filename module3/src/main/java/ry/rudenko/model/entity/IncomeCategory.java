@@ -2,9 +2,11 @@ package ry.rudenko.model.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,16 +19,22 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Entity
-@DiscriminatorValue("income")
-@Table(name = "income-category")
+@DiscriminatorValue("1")
+@Table(name = "income_category")
 public class IncomeCategory extends Category implements Serializable {
-//  @Id
-//  @GeneratedValue(strategy = GenerationType.IDENTITY)
-//  @Column(name = "id_category")
-//  private Long id;
+  public IncomeCategory(String actionType) {
+    super.setActionType(actionType);
+  }
 //
-//  @Column(name = "action_type_category")
-//  private String actionType;
+//  @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,
+//      mappedBy = "incomeCategory")
+//  private List<Operation> operations;
 //
-
+//  public List<Operation> getOperations() {
+//    return operations;
+//  }
+//
+//  public void setOperations(List<Operation> operations) {
+//    this.operations = operations;
+//  }
 }

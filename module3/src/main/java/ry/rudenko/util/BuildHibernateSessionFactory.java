@@ -12,6 +12,7 @@ import org.jboss.logging.Logger;
 import ry.rudenko.Main;
 import ry.rudenko.model.entity.Account;
 import ry.rudenko.model.entity.Category;
+import ry.rudenko.model.entity.ExpenseCategory;
 import ry.rudenko.model.entity.IncomeCategory;
 import ry.rudenko.model.entity.Operation;
 import ry.rudenko.model.entity.User;
@@ -33,6 +34,7 @@ public class BuildHibernateSessionFactory {
           .addAnnotatedClass(Account.class)
           .addAnnotatedClass(Category.class)
           .addAnnotatedClass(IncomeCategory.class)
+          .addAnnotatedClass(ExpenseCategory.class)
           .addAnnotatedClass(Operation.class)
           .addAnnotatedClass(User.class)
           .getMetadataBuilder().build();

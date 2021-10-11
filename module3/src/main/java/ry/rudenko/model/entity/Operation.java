@@ -1,11 +1,14 @@
 package ry.rudenko.model.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,26 +42,19 @@ public class Operation implements Serializable {
   private Instant date;
 
   @Column(nullable=false)
-  private Long amount;
+  private BigInteger amount;
 
   @Column(nullable=false)
   private String type;
 
-//
-//  @ManyToOne
-//  @JoinColumn(name="account_id", nullable = false)
-//  private Account account;
-//
 
-//
-//  @ManyToMany
-//  List<IncomeCategory> incomeCategories;
-//
-//
-//  @ManyToMany
-//  List<ExpenseCategory> expenseCategories;
-//
+  @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
+  @JoinColumn(name="account_id", nullable = false)
+  private Account account;
 
+  @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
+  @JoinColumn(name="category_id", nullable = false)
+  private Category category;
 
   public UUID getId() {
     return id;
@@ -76,11 +72,11 @@ public class Operation implements Serializable {
     this.date = date;
   }
 
-  public Long getAmount() {
+  public BigInteger getAmount() {
     return amount;
   }
 
-  public void setAmount(Long amount) {
+  public void setAmount(BigInteger amount) {
     this.amount = amount;
   }
 
@@ -90,5 +86,21 @@ public class Operation implements Serializable {
 
   public void setType(String type) {
     this.type = type;
+  }
+
+  public Account getAccount() {
+    return account;
+  }
+
+  public void setAccount(Account account) {
+    this.account = account;
+  }
+
+  public Category getCategory() {
+    return category;
+  }
+
+  public void setCategory(Category category) {
+    this.category = category;
   }
 }
