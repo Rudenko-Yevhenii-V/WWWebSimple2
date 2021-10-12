@@ -11,7 +11,7 @@ import ry.rudenko.repository.CategoryRepository;
 
 public class CategoryRepositoryImpl implements CategoryRepository {
 
-  private static final Logger log = LoggerFactory.getLogger(OperationRepositoryImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(CategoryRepositoryImpl.class);
 
   private final Session session;
 

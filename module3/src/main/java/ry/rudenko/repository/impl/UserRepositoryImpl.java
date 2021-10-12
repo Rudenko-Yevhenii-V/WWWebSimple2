@@ -10,7 +10,7 @@ import ry.rudenko.repository.UserRepository;
 
 public class UserRepositoryImpl implements UserRepository {
 
-  private static final Logger log = LoggerFactory.getLogger(OperationRepositoryImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(UserRepositoryImpl.class);
 
   private Session session;
 
@@ -27,6 +27,12 @@ public class UserRepositoryImpl implements UserRepository {
     return session.unwrap(Session.class)
         .bySimpleNaturalId(User.class)
         .load(phone);
+  }
+
+  @Override
+  public User save(User user) {
+    session.save(user);
+    return user;
   }
 
 }

@@ -8,5 +8,5 @@ public interface AccountService {
 
   Account findById(UUID id);
 
-  void updete(Account account);
+  Account updete(Account account);
 }

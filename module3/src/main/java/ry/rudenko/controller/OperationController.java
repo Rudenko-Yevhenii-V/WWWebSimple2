@@ -28,7 +28,7 @@ public class OperationController {
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     try {
       final User user = new UserRepositoryImpl(session).findByPhone(phone);
-      System.out.println(" Hello " + user.getName());
+      System.out.println(" \n\n\n\n\n\n\nHello " + user.getName());
       System.out.println("select your account:");
       Account selectedAccount = null;
       final List<Account> accountsByUser = new AccountRepositoryImpl(session).findByUserId(user);
@@ -43,6 +43,7 @@ public class OperationController {
           selectedAccount = account;
         }
       }
+      log.info("Used account {} owner name {}", selectedAccount.getId(),user.getName());
       System.out.println("If you going to do operation with account, enter 1");
       System.out.println("If you going to print history from account, enter 2");
       System.out.println("If you going to EXIT, enter ANY");
@@ -55,7 +56,7 @@ public class OperationController {
           System.out.println("Good bue!");
           Thread.sleep(2000);
           System.exit(0);
-        };
+        }
         break;
         default:{
           System.out.println("Wrong choice... Good bue!");

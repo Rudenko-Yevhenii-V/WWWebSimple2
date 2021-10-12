@@ -63,6 +63,7 @@ public class OutputCsvController {
               .actionType(generatedKeys.getString("action_type"))
               .build();
           System.out.println("csvData = " + csvData);
+          log.info("csv data = {}", csvData);
           list.add(csvData);
         }
         connection.commit();
@@ -83,10 +84,13 @@ public class OutputCsvController {
           csv.add(row);
         }
         try (CSVWriter writer = new CSVWriter(new FileWriter(path))) {
+          log.info("Try to write data to csv{}",csv);
           writer.writeAll(csv);
+
         }
       } catch (SQLException | ParseException | IOException e) {
         connection.rollback();
+        log.error("Don't created output ", e);
         throw new RuntimeException(e);
       }
     });

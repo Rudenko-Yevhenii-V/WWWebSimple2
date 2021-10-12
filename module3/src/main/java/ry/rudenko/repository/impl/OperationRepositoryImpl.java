@@ -43,6 +43,7 @@ public class OperationRepositoryImpl implements OperationRepository {
       transaction.rollback();
       System.err.println("rollback" + e);
       log.error("Error during transaction", e);
+      throw new RuntimeException(e);
     }
     return operation;
   }

@@ -13,7 +13,7 @@ import ry.rudenko.repository.AccountRepository;
 
 public class AccountRepositoryImpl implements AccountRepository {
 
-  private static final Logger log = LoggerFactory.getLogger(OperationRepositoryImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(AccountRepositoryImpl.class);
 
   private final Session session;
 
@@ -41,6 +41,9 @@ public class AccountRepositoryImpl implements AccountRepository {
   @Override
   public Account update(Account inAccount) {
     final Account account = session.get(Account.class, inAccount.getId());
+    if(account == null){
+      System.out.println("null");
+    }
     account.setBalance(inAccount.getBalance());
     session.update(account);
     return account;
