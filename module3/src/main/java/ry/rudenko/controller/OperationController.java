@@ -43,7 +43,27 @@ public class OperationController {
           selectedAccount = account;
         }
       }
-      System.out.println("Enter amount of operation: ");
+      System.out.println("If you going to do operation with account, enter 1");
+      System.out.println("If you going to print history from account, enter 2");
+      System.out.println("If you going to EXIT, enter ANY");
+      switch (reader.readLine()){
+        case "1": System.out.println("Enter amount of operation: ");
+        break;
+        case "2": {
+
+          new OutputCsvController().createCsv(selectedAccount.getId(), getStart(reader), getEnd(reader));
+          System.out.println("Good bue!");
+          Thread.sleep(2000);
+          System.exit(0);
+        };
+        break;
+        default:{
+          System.out.println("Wrong choice... Good bue!");
+          Thread.sleep(2000);
+          System.exit(0);
+        }
+      }
+
       final BigInteger amount = new BigInteger(reader.readLine());
       assert selectedAccount != null;
       final Operation operation = new OperationServiceImpl(
@@ -54,11 +74,21 @@ public class OperationController {
           , choiceIncome(reader)
           , enterActionType(reader)
       );
-    } catch (EmptySessionException | IOException e) {
+    } catch (EmptySessionException | IOException | InterruptedException e) {
       log.error("Session did not transferred! ", e);
       throw new RuntimeException(e);
     }
 
+  }
+
+  private String getEnd(BufferedReader reader) throws IOException {
+    System.out.println("ENTER time to (yyyy-MM-dd HH:mm:ss):  ");
+    return reader.readLine();
+  }
+
+  private String getStart(BufferedReader reader) throws IOException {
+    System.out.println("ENTER time from (yyyy-MM-dd HH:mm:ss):  ");
+    return reader.readLine();
   }
 
   private String enterActionType(BufferedReader reader) throws IOException {
@@ -73,14 +103,14 @@ public class OperationController {
 
   private String choiceTypeOfOperation(BufferedReader reader) throws IOException {
     System.out.println("Choice operation's type:");
-    System.out.println("mandatory spending, enter 1");
-    System.out.println("ad hoc expenses   , enter 2");
-    System.out.println("other             , enter 3");
+    System.out.println("mandatory     , enter 1");
+    System.out.println("occasionally  , enter 2");
+    System.out.println("other         , enter 3");
     switch (reader.readLine()) {
       case "1":
-        return "mandatory spending";
+        return "mandatory ";
       case "2":
-        return "ad hoc expenses";
+        return "occasionally";
       case "3":
         return "other";
       default: {
