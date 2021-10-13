@@ -44,6 +44,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     if(account == null){
       System.out.println("null");
     }
+    assert account != null;
     account.setBalance(inAccount.getBalance());
     session.update(account);
     return account;

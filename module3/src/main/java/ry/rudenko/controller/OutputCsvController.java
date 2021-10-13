@@ -53,7 +53,8 @@ public class OutputCsvController {
         List<CsvData> list = new ArrayList<>();
         File fileToOutputCsv = new File(path);
         if (!fileToOutputCsv.exists()) {
-          fileToOutputCsv.createNewFile();
+          final boolean newFile = fileToOutputCsv.createNewFile();
+          log.info("Is created file for writing data to csv? - {} ",newFile);
         }
         while (generatedKeys.next()) {
           CsvData csvData = CsvData.builder()

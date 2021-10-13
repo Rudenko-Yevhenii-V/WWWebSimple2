@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ry.rudenko.exception.EmptySessionException;
 import ry.rudenko.model.entity.Account;
-import ry.rudenko.model.entity.Operation;
 import ry.rudenko.model.entity.User;
 import ry.rudenko.repository.impl.AccountRepositoryImpl;
 import ry.rudenko.repository.impl.OperationRepositoryImpl;
@@ -51,7 +50,6 @@ public class OperationController {
         case "1": System.out.println("Enter amount of operation: ");
         break;
         case "2": {
-
           new OutputCsvController().createCsv(selectedAccount.getId(), getStart(reader), getEnd(reader));
           System.out.println("Good bue!");
           Thread.sleep(2000);
@@ -66,8 +64,7 @@ public class OperationController {
       }
 
       final BigInteger amount = new BigInteger(reader.readLine());
-      assert selectedAccount != null;
-      final Operation operation = new OperationServiceImpl(
+      new OperationServiceImpl(
           new OperationRepositoryImpl(session)).addOperation(
           selectedAccount.getId()
           , choiceTypeOfOperation(reader)
