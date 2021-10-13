@@ -39,6 +39,7 @@ public class OperationRepositoryImpl implements OperationRepository {
       session.save(operation);
       new AccountServiceImpl(new AccountRepositoryImpl(session)).updete(operation.getAccount());
       transaction.commit();
+      System.out.println("Your transaction completed thank you!");
     } catch (Exception e) {
       transaction.rollback();
       System.err.println("rollback" + e);

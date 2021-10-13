@@ -80,12 +80,12 @@ public class OperationController {
   }
 
   private String getEnd(BufferedReader reader) throws IOException {
-    System.out.println("ENTER time to (yyyy-MM-dd HH:mm:ss):  ");
+    System.out.println("ENTER time to (yyyy-MM-dd HH:mm:ss) example - 2021-10-10 21:32:52 :  ");
     return reader.readLine();
   }
 
   private String getStart(BufferedReader reader) throws IOException {
-    System.out.println("ENTER time from (yyyy-MM-dd HH:mm:ss):  ");
+    System.out.println("ENTER time from (yyyy-MM-dd HH:mm:ss) example - 2021-10-15 21:32:52 :  ");
     return reader.readLine();
   }
 
