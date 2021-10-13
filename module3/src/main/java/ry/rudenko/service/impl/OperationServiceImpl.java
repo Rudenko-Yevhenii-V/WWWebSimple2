@@ -17,15 +17,14 @@ import ry.rudenko.repository.impl.CategoryRepositoryImpl;
 import ry.rudenko.repository.impl.OperationRepositoryImpl;
 import ry.rudenko.service.OperationService;
 
-public record OperationServiceImpl(
-    OperationRepositoryImpl operationRepository) implements
+public record OperationServiceImpl(OperationRepositoryImpl operationRepository) implements
     OperationService {
 
   private static final Logger log = LoggerFactory.getLogger(OperationServiceImpl.class);
 
   @Override
   public Operation findById(UUID id) {
-    return null;
+    return operationRepository.findById(id);
   }
 
   @Override
