@@ -4,6 +4,8 @@ package ry.rudenko.service.impl;
 import java.math.BigInteger;
 import java.time.Instant;
 import java.util.UUID;
+import java.util.function.Supplier;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ry.rudenko.exception.EmptySessionException;
@@ -50,7 +52,7 @@ public record OperationServiceImpl(OperationRepositoryImpl operationRepository) 
   private Account addAccount(UUID idAccount, BigInteger amount, boolean income)
       throws EmptySessionException {
     final Account account = new AccountServiceImpl(
-        new AccountRepositoryImpl(operationRepository.getSession()))
+        new AccountRepositoryImpl(operationRepository::getSession))
         .findById(idAccount);
     BigInteger balance = account.getBalance();
     final BigInteger bigInteger;
@@ -65,10 +67,10 @@ public record OperationServiceImpl(OperationRepositoryImpl operationRepository) 
 
   private Category addCatrgory(Boolean income, String actionType) throws EmptySessionException {
     if (income) {
-      return new CategoryRepositoryImpl(operationRepository.getSession()).save(
+      return new CategoryRepositoryImpl(operationRepository::getSession).save(
           new IncomeCategory(actionType));
     } else {
-      return new CategoryRepositoryImpl(operationRepository.getSession()).save(
+      return new CategoryRepositoryImpl(operationRepository::getSession).save(
           new ExpenseCategory(actionType));
     }
   }

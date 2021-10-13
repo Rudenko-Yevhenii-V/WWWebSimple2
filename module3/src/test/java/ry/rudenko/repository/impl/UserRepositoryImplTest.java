@@ -18,7 +18,7 @@ class UserRepositoryImplTest extends JPATest {
   @BeforeEach
   void setUp() {
     try {
-      userRepository = new UserRepositoryImpl(session);
+      userRepository = new UserRepositoryImpl(() -> session);
     } catch (EmptySessionException e) {
       throw  new RuntimeException(e);
     }

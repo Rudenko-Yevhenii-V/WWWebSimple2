@@ -1,6 +1,7 @@
 package ry.rudenko.repository.impl;
 
 
+import java.util.function.Supplier;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
@@ -15,9 +16,10 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
   private final Session session;
 
-  public CategoryRepositoryImpl(Session session) throws EmptySessionException {
+  public CategoryRepositoryImpl(Supplier<Session> sessionSupplier) throws EmptySessionException {
+    this.session = sessionSupplier.get();
     if (session.isOpen()) {
-      this.session = session;
+      log.info("Is open session? {}",session.isOpen());
     } else {
       log.error("Session not transferred!");
       throw new EmptySessionException("Session not transferred!");

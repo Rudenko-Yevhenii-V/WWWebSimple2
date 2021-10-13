@@ -1,6 +1,7 @@
 package ry.rudenko.repository.impl;
 
 import java.util.UUID;
+import java.util.function.Supplier;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
@@ -17,13 +18,14 @@ public class OperationRepositoryImpl implements OperationRepository {
   private final Session session;
   final Transaction transaction;
 
-  public OperationRepositoryImpl(Session session) throws EmptySessionException {
-    if(session.isOpen()){
-      this.session = session;
+  public OperationRepositoryImpl(Supplier<Session> sessionSupplier) throws EmptySessionException {
+    this.session = sessionSupplier.get();
+    if (session.isOpen()) {
+      log.info("Is open session? {}",session.isOpen());
       transaction = session.getTransaction();
-    }else {
+    } else {
       log.error("Session not transferred!");
-        throw new EmptySessionException("Session not transferred!");
+      throw new EmptySessionException("Session not transferred!");
     }
   }
 
@@ -34,10 +36,11 @@ public class OperationRepositoryImpl implements OperationRepository {
 
   @Override
   public Operation addOperation(Operation operation) {
-          transaction.begin();
+    transaction.begin();
     try {
       session.save(operation);
-      new AccountServiceImpl(new AccountRepositoryImpl(session)).updete(operation.getAccount());
+      new AccountServiceImpl(new AccountRepositoryImpl(() -> session)).updete(
+          operation.getAccount());
       transaction.commit();
       System.out.println("Your transaction completed thank you!");
     } catch (Exception e) {

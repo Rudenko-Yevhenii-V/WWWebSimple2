@@ -23,7 +23,7 @@ class OperationServiceImplTest  extends JPATest {
   @BeforeEach
   void setUp() {
     try {
-      operationService = new OperationServiceImpl(new OperationRepositoryImpl(session));
+      operationService = new OperationServiceImpl(new OperationRepositoryImpl(() -> session));
 
     } catch (EmptySessionException e) {
       throw new RuntimeException(e);
@@ -37,7 +37,7 @@ class OperationServiceImplTest  extends JPATest {
         .phone("12")
         .name("Test NAME")
         .build();
-    assertDoesNotThrow(() -> new UserRepositoryImpl(session).save(user2));
+    assertDoesNotThrow(() -> new UserRepositoryImpl(()->session).save(user2));
     account = Account.builder()
         .user(user2)
         .balance(new BigInteger("2000"))

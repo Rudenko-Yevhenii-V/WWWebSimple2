@@ -18,6 +18,7 @@ import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +29,12 @@ public class OutputCsvController {
 
   private final String path = "outputOperationHistory.csv";
   private static final Logger log = LoggerFactory.getLogger(OutputCsvController.class);
-  final Session session = BuildHibernateSessionFactory.buildSessionFactory().openSession();
+  final Session session;
   private final Executor executor = Executors.newFixedThreadPool(1);
+
+  public OutputCsvController(Supplier<Session> sessionSupplier) {
+    this.session = sessionSupplier.get();
+  }
 
   public void createCsv(UUID idAccount, String start, String end) {
     session.doWork(connection -> {

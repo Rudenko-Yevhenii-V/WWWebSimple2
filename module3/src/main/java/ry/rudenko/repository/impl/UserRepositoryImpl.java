@@ -1,6 +1,7 @@
 package ry.rudenko.repository.impl;
 
 
+import java.util.function.Supplier;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +15,10 @@ public class UserRepositoryImpl implements UserRepository {
 
   private Session session;
 
-  public UserRepositoryImpl(Session session) throws EmptySessionException {
+  public UserRepositoryImpl(Supplier<Session> sessionSupplier) throws EmptySessionException {
+    this.session = sessionSupplier.get();
     if (session.isOpen()) {
-      this.session = session;
+      log.info("Is open session? {}",session.isOpen());
     } else {
       log.error("Session not transferred!");
       throw new EmptySessionException("Session not transferred!");

@@ -25,8 +25,8 @@ class AccountServiceImplTest extends JPATest {
   @BeforeEach
   void setUp() {
     try {
-      subjectAccount = new AccountServiceImpl(new AccountRepositoryImpl(session));
-      userRepository = new UserRepositoryImpl(session);
+      subjectAccount = new AccountServiceImpl(new AccountRepositoryImpl(() -> session));
+      userRepository = new UserRepositoryImpl(() ->session);
     } catch (EmptySessionException e) {
       throw new RuntimeException(e);
     }
