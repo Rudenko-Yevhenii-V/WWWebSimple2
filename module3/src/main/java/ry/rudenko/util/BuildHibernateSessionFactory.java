@@ -20,13 +20,13 @@ import ry.rudenko.model.entity.User;
 
 public class BuildHibernateSessionFactory {
   private static final Logger log = LoggerFactory.logger(BuildHibernateSessionFactory.class);
-  public BuildHibernateSessionFactory() {
+  public BuildHibernateSessionFactory( ) {
   }
-  public static SessionFactory buildSessionFactory(){
+  public static SessionFactory buildSessionFactory(String dbName, String dbPass){
     try{
       Configuration configuration = new Configuration();
-      configuration.setProperty("hibernate.connection.username", Main.getDbName());
-      configuration.setProperty("hibernate.connection.password", Main.getDbPass());
+      configuration.setProperty("hibernate.connection.username", dbName);
+      configuration.setProperty("hibernate.connection.password", dbPass);
       StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
       final StandardServiceRegistry serviceRegistry = builder.configure().build();
       Metadata metadata = new MetadataSources(serviceRegistry)

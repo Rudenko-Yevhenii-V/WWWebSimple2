@@ -21,9 +21,10 @@ import ry.rudenko.util.BuildHibernateSessionFactory;
 public class OperationController {
 
   private static final Logger log = LoggerFactory.getLogger(OperationController.class);
-  final Session session = BuildHibernateSessionFactory.buildSessionFactory().openSession();
+  private Session session;
 
-  public void createOperation(String phone) {
+  public void createOperation(String phone, String dbName, String dbPass) {
+    session = BuildHibernateSessionFactory.buildSessionFactory(dbName, dbPass).openSession();
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     try {
       final User user = new UserRepositoryImpl(() -> session).findByPhone(phone);
@@ -82,7 +83,7 @@ public class OperationController {
   }
 
   private String getEnd(BufferedReader reader) throws IOException {
-    System.out.println("ENTER time to (yyyy-MM-dd HH:mm:ss) example - 2021-10-10 21:32:52 :  ");
+    System.out.println("ENTER time to (yyyy-MM-dd HH:mm:ss) example - 2021-10-20 21:32:52 :  ");
     return reader.readLine();
   }
 

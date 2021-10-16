@@ -23,7 +23,7 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ry.rudenko.model.dto.CsvData;
-import ry.rudenko.util.BuildHibernateSessionFactory;
+import ry.rudenko.model.facade.impl.CsvDataFacadeImpl;
 
 public class OutputCsvController {
 
@@ -62,12 +62,12 @@ public class OutputCsvController {
           log.info("Is created file for writing data to csv? - {} ",newFile);
         }
         while (generatedKeys.next()) {
-          CsvData csvData = CsvData.builder()
-              .amount(new BigInteger(String.valueOf(generatedKeys.getLong("amount"))))
-              .date(generatedKeys.getTimestamp("date").toInstant())
-              .type(generatedKeys.getString("type"))
-              .actionType(generatedKeys.getString("action_type"))
-              .build();
+          CsvData csvData = new CsvDataFacadeImpl().register(
+              generatedKeys.getTimestamp("date").toInstant()
+              ,new BigInteger(String.valueOf(generatedKeys.getLong("amount")))
+              ,generatedKeys.getString("type")
+              ,generatedKeys.getString("action_type")
+          );
           System.out.println("csvData = " + csvData);
           log.info("csv data = {}", csvData);
           list.add(csvData);

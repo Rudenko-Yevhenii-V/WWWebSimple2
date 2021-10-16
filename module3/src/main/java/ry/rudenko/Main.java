@@ -8,17 +8,6 @@ import ry.rudenko.exception.EmptyArgsException;
 
 public class Main {
 
-  private static String dbName = null;
-  private static String dbPass = null;
-
-  public static String getDbName() {
-    return dbName;
-  }
-
-  public static String getDbPass() {
-    return dbPass;
-  }
-
   private static final Logger log = LoggerFactory.getLogger(Main.class);
 
   public static void main(String[] args) {
@@ -30,9 +19,9 @@ public class Main {
         throw new RuntimeException(e);
       }
     }
-    dbName = args[0];
-    dbPass = args[1];
+    String dbName = args[0];
+    String dbPass = args[1];
     String phone = args[2];
-    new OperationController().createOperation(phone);
+    new OperationController().createOperation(phone, dbName, dbPass);
   }
 }
