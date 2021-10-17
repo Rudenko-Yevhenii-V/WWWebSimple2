@@ -10,16 +10,16 @@ public class First {
 
       try {
         String massage = "Hello from thread ";
-        new NamePrinterTask(massage + i, i).start();
+        new FirstTaskThread(massage + i, i).start();
       } catch (InterruptedException e) {
         System.out.println("Thread was interrupted");
       }
     }
   }
 }
-class NamePrinterTask extends Thread {
+class FirstTaskThread extends Thread {
   int i;
-  NamePrinterTask(String name, int i) throws InterruptedException {
+  FirstTaskThread(String name, int i) throws InterruptedException {
     super(name);
     this.i= i;
     System.out.println(this.getName() + " RUNNING");
