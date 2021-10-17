@@ -23,8 +23,7 @@ public class Two {
     numbers = Collections.synchronizedList(new ArrayList());
     Random random = new Random();
     for (int i = 0; i < numberOfNubmbers; i++) {
-//      numbers.add(random.nextInt(999));
-      numbers.add(i);
+      numbers.add(random.nextInt(999));
       System.out.println("Number is : " + numbers.get(i));
     }
     iterator = numbers.iterator();
@@ -42,8 +41,7 @@ public class Two {
       System.out.println("result1 = " + result1);
       System.out.println("result2 = " + result2);
       System.out.printf("List have got %d prime numbers", (result1 + result2));
-
-//      System.exit(0);
+      executor.shutdown();
     } catch (InterruptedException | ExecutionException e) {
       e.printStackTrace();
     }
