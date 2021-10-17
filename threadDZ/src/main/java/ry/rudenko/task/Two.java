@@ -42,6 +42,7 @@ public class Two {
       System.out.println("result1 = " + result1);
       System.out.println("result2 = " + result2);
       System.out.printf("List have got %d prime numbers", (result1 + result2));
+
 //      System.exit(0);
     } catch (InterruptedException | ExecutionException e) {
       e.printStackTrace();
@@ -71,7 +72,6 @@ class SecondTaskThread implements Callable<Integer> {
 
   @Override
   public Integer call() {
-
     int count = 0;
     while (iterator.hasNext()) {
       final Integer primeOfNubmbers = new Two().getPrimeOfNubmbers(iterator);
