@@ -20,13 +20,18 @@ public class Two {
   public static volatile Iterator iterator;
 
   public static void main(String[] args) {
-    numbers = Collections.synchronizedList(new ArrayList());
+    numbers = new ArrayList();
     Random random = new Random();
     for (int i = 0; i < numberOfNubmbers; i++) {
-      numbers.add(random.nextInt(999));
+//      numbers.add(random.nextInt(999));
+      numbers.add(i);
       System.out.println("Number is : " + numbers.get(i));
     }
-    iterator = numbers.iterator();
+    synchronized (numbers) {
+      iterator = numbers.iterator();
+
+    }
+
     SecondTaskThread callable1 = new SecondTaskThread(iterator);
     SecondTaskThread callable2 = new SecondTaskThread(iterator);
     FutureTask<Integer> futureTask1 = new FutureTask<>(callable1);
@@ -73,7 +78,7 @@ class SecondTaskThread implements Callable<Integer> {
     int count = 0;
     while (iterator.hasNext()) {
       final Integer primeOfNubmbers = new Two().getPrimeOfNubmbers(iterator);
-      if (!(primeOfNubmbers == null)&&(primeOfNubmbers!=0)) {
+      if (!(primeOfNubmbers == null) && (primeOfNubmbers != 0)) {
         System.out.println(
             "number = " + primeOfNubmbers + " - " + Thread.currentThread().getName());
         count++;
@@ -83,8 +88,3 @@ class SecondTaskThread implements Callable<Integer> {
   }
 
 }
-
-//  Напишите приложение, которое в 2 потока будет считать
-//    количество простых чисел, которые заданы в List, выводить
-//    результат и возвращать его в главный поток.
-//    Главный поток подсчитывает и выводит общее количество.
