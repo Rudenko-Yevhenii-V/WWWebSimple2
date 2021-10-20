@@ -46,8 +46,11 @@ public class Two {
       System.out.println("result2 = " + result2);
       System.out.printf("List have got %d prime numbers", (result1 + result2));
       executor.shutdown();
-    } catch (InterruptedException | ExecutionException e) {
-      e.printStackTrace();
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new RuntimeException(e);
+    } catch (ExecutionException e) {
+      throw new RuntimeException(e);
     }
   }
 

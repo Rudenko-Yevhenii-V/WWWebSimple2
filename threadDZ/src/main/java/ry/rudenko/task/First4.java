@@ -13,7 +13,9 @@ public class First4 {
         String massage = "Hello from thread ";
         new nextThread(massage + i, i, atomicInteger).start();
       } catch (InterruptedException e) {
-        System.out.println("Thread was interrupted");
+        System.err.println("Thread was interrupted");
+        Thread.currentThread().interrupt();
+        throw new RuntimeException(e);
       }
     }
   }
@@ -40,7 +42,9 @@ class nextThread extends Thread {
           try {
             atomicI.wait(100);
           } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.err.println("Thread was interrupted");
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
           }
         } else {
           isWaiting = false;

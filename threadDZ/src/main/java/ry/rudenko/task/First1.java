@@ -21,7 +21,9 @@ class Start {
       try {
         threadStack.push(new Thread(new FirstThread(massage + i)));
       } catch (InterruptedException e) {
-        e.printStackTrace();
+        System.err.println("Thread was interrupted");
+        Thread.currentThread().interrupt();
+        throw new RuntimeException(e);
       }
     }
     for (int i = 0; i < 50; i++) {
@@ -31,6 +33,8 @@ class Start {
         pop.join();
       } catch (InterruptedException e) {
         System.err.println("Thread was interrupted");
+        Thread.currentThread().interrupt();
+        throw new RuntimeException(e);
       }
     }
   }

@@ -12,7 +12,9 @@ public class First2 {
         String massage = "Hello from thread ";
         new FirstTaskThread(massage + i, i).start();
       } catch (InterruptedException e) {
-        System.out.println("Thread was interrupted");
+        System.err.println("Thread was interrupted");
+        Thread.currentThread().interrupt();
+        throw new RuntimeException(e);
       }
     }
   }
@@ -30,7 +32,9 @@ class FirstTaskThread extends Thread {
     try {
       Thread.sleep(100L * (50 - i));
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      System.err.println("Thread was interrupted");
+      Thread.currentThread().interrupt();
+      throw new RuntimeException(e);
     }
     System.out.println("Hello from " + getName());
   }
