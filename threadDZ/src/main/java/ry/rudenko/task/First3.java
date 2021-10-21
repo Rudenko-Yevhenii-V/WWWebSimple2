@@ -19,11 +19,7 @@ public class First3 {
     });
 
     var consumer = new Thread(() -> {
-      Boolean isRun = false;
-
-      System.out.println(
-          "(queue.size() != 49 || isRun)&&queue.isEmpty() = " + ((queue.size() != 49 || isRun)
-              && queue.isEmpty()));
+      boolean isRun = false;
       while ((queue.size() != 49 || isRun) && !queue.isEmpty()) {
         try {
           final Thread take = queue.takeLast();
