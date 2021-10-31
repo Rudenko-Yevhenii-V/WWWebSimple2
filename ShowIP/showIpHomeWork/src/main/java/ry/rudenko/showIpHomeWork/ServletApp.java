@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ServletApp {
 
   public static final String FETCH_INFO = "/info";
-  private static final Map<String, String> ipAndHeaders = new ConcurrentHashMap<>();
+  private final Map<String, String> ipAndHeaders = new ConcurrentHashMap<>();
 
   @GetMapping(FETCH_INFO)
   public void fetchThemes(
